@@ -39,6 +39,7 @@
 		A25317062391007E003A41D1 /* LaunchScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A25317052391007E003A41D1 /* LaunchScreenView.swift */; };
 		A25317092391947F003A41D1 /* HomeInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A25317082391947F003A41D1 /* HomeInfoView.swift */; };
 		A253170C23919604003A41D1 /* LogoutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A253170B23919604003A41D1 /* LogoutViewController.swift */; };
+		A25DF97823C54D2800D5EF39 /* PlaylistGuestRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A25DF97723C54D2800D5EF39 /* PlaylistGuestRootView.swift */; };
 		A26B2A6F23C52CBF00C73D25 /* GetFriendsAndRequestsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26B2A6E23C52CBF00C73D25 /* GetFriendsAndRequestsController.swift */; };
 		A26B2A7123C52D8C00C73D25 /* UserFriendsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26B2A7023C52D8C00C73D25 /* UserFriendsModel.swift */; };
 		A26C17AD2346BB9E00F8396B /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26C17AC2346BB9E00F8396B /* LoginViewController.swift */; };
@@ -150,6 +151,7 @@
 		A25317052391007E003A41D1 /* LaunchScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScreenView.swift; sourceTree = "<group>"; };
 		A25317082391947F003A41D1 /* HomeInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeInfoView.swift; sourceTree = "<group>"; };
 		A253170B23919604003A41D1 /* LogoutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoutViewController.swift; sourceTree = "<group>"; };
+		A25DF97723C54D2800D5EF39 /* PlaylistGuestRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistGuestRootView.swift; sourceTree = "<group>"; };
 		A26B2A6E23C52CBF00C73D25 /* GetFriendsAndRequestsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetFriendsAndRequestsController.swift; sourceTree = "<group>"; };
 		A26B2A7023C52D8C00C73D25 /* UserFriendsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFriendsModel.swift; sourceTree = "<group>"; };
 		A26C17AC2346BB9E00F8396B /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -342,6 +344,7 @@
 		A21890B723417EBC008FBA2C /* View */ = {
 			isa = PBXGroup;
 			children = (
+				A25DF97623C54D0900D5EF39 /* PlaylistGuestView */,
 				A286384123AC064B00666229 /* SpotifySongListViews */,
 				A286382F23AB336100666229 /* TESTING_ONLY__TO_BE_DELETED */,
 				A22CE68223AAD3250004F219 /* HostPlaylistView */,
@@ -465,6 +468,14 @@
 				A253170B23919604003A41D1 /* LogoutViewController.swift */,
 			);
 			path = InfoViewControllers;
+			sourceTree = "<group>";
+		};
+		A25DF97623C54D0900D5EF39 /* PlaylistGuestView */ = {
+			isa = PBXGroup;
+			children = (
+				A25DF97723C54D2800D5EF39 /* PlaylistGuestRootView.swift */,
+			);
+			path = PlaylistGuestView;
 			sourceTree = "<group>";
 		};
 		A26C17AB2346BB6B00F8396B /* StartupControllers */ = {
@@ -948,6 +959,7 @@
 				A286383423AB38AF00666229 /* HostPlaylistViewController.swift in Sources */,
 				A26B2A6F23C52CBF00C73D25 /* GetFriendsAndRequestsController.swift in Sources */,
 				A2B93430237C949A00EAF4FB /* SpotifyAuthView.swift in Sources */,
+				A25DF97823C54D2800D5EF39 /* PlaylistGuestRootView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

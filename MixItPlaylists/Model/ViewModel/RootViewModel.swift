@@ -13,5 +13,6 @@ enum RootViewTypes: String {
         LAUNCH,
         AUTH,
         HOME,
-        HOST_PLAYLIST
+        HOST_PLAYLIST,
+        GUEST_PLAYLIST
 }

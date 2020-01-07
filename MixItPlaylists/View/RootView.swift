@@ -10,7 +10,7 @@ import SwiftUI
 
 struct RootView: View {
     // root view
-    @State var rootViewType: RootViewTypes = .LAUNCH
+    @State var rootViewType: RootViewTypes = .GUEST_PLAYLIST
     
     // bool if spotify is connected
     @State var isSpotifyAuthed: Bool = false
@@ -29,7 +29,7 @@ struct RootView: View {
                 SpotifyAuthView(isSpotifyAuthed: self.$isSpotifyAuthed)
             }
         }
-        .onAppear{self.checkAuth()}
+        //.onAppear{self.checkAuth()}
     }
     
     func containedView() -> AnyView {
@@ -46,6 +46,9 @@ struct RootView: View {
             
             // host root view
             case .HOST_PLAYLIST: return AnyView(HostPlaylistRootView(playlist: self.$playlist))
+            
+            // guest playlist root view
+            case .GUEST_PLAYLIST: return AnyView(PlaylistGuestRootView())
         }
     }
     
