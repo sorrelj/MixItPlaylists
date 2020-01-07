@@ -28,7 +28,12 @@ struct APIRequest {
             confirmImage = "confirmimage",
             authUser = "authuser",
             spotifyAuth = "spotifyauth",
-            createPlaylist = "createplaylist"
+            createPlaylist = "createplaylist",
+            getMyPlaylists = "getmyplaylists",
+            searchUsers = "searchusers",
+            sendfriendrequest = "sendfriendrequest",
+            getfriends = "getfriends",
+            acceptfriendrequest = "acceptfriendrequest"
     }
     
     // request

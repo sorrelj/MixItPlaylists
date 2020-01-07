@@ -11,14 +11,13 @@ struct HostPlaylistRootView: View {
         
      /// MARK: Binding vars
     // playlist id
-    @Binding var playlistID: String
+    @Binding var playlist: MixItPlaylistModel
     
     
-    /// MARK: State vars
+    /// MARK: Controllers
+    // Host playlist main view controller
+    @ObservedObject var hostMainViewController = HostPlaylistViewController()
     
-    /*
-       Controllers
-    */
     // Get Spotify Playlist View Controller
     @ObservedObject var getSpotifyPlaylistViewController = GetSpotifyPlaylistViewController()
     
@@ -26,34 +25,17 @@ struct HostPlaylistRootView: View {
     @ObservedObject var getSpotifySongsViewController = GetSpotifySongsViewController()
     
     
-    /*
-        Host Playlist  view
-     */
-    // Host playlist main view controller
-    @ObservedObject var hostMainViewController = HostPlaylistViewController()
+    
+    /// MARK: State vars
     
     // activity indicator
-    @State private var showActivityIndicator = false
+    @State var showActivityIndicator = true
     
-    // Playlist info State vars
-    @State var spotifyPlaylistData: SpotifyPlaylistModel = SpotifyPlaylistModel()
-    
-    
-    
-    
-    /// MARK: Private variables
-    
-    /*
-       Host Playlist  view
-    */
-   
     
     /// MARK: Private functions
-    
     // on startup
-    private func onViewStartup() {
+    func onViewStartup() {
         // connect app remote if spotify app installed
-        
         if self.hostMainViewController.isSpotifyAppInstalled() {
             // add notifation reciever
             NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "appRemoteConnected"), object: nil, queue: nil, using: self.onAppRemoteConnected)
@@ -70,21 +52,40 @@ struct HostPlaylistRootView: View {
     // when the app remote is connected
     private func onAppRemoteConnected(_ notification: Notification){
         
-        // get the playlist details
-        self.getSpotifyPlaylistViewController.getSingleSpotifyPlaylist(playlistID: self.playlistID, callback: { resp in
-                        
-            // check for error
-            if resp.error {
-                print(resp.errorMessage)
-                //display error
-            }else{
-                // set playlist data
-                self.spotifyPlaylistData = resp.playlistData!
-            }
-        })
+        // get connection status
+        guard let connected = notification.userInfo?["connected"] as? Bool else {
+            print("GET APP REMOTE STATUS ERROR")
+            return
+        }
+        
+        guard connected == true else {
+            print("APP REMOTE CONNECTION ERROR")
+            return
+        }
+        
+        // get the playlist details if needed
+        if self.playlist.spotifyData.id.isEmpty {
+            // get the data
+            self.getSpotifyPlaylistViewController.getSingleSpotifyPlaylist(playlistID: self.playlist.id, callback: { resp in
+                            
+                // check for error
+                if resp.error {
+                    print(resp.errorMessage)
+                    //display error
+                }else{
+                    DispatchQueue.main.async {
+                        // set playlist data
+                        self.hostMainViewController.spotifyPlaylistData = resp.playlistData!
+                    }
+                }
+            })
+        }else{
+            // set the data
+            self.hostMainViewController.spotifyPlaylistData = self.playlist.spotifyData
+        }
         
         // get playlist tracks
-        self.getSpotifySongsViewController.getSpotifyPlaylistSongs(playlistID: self.playlistID, callback: { resp in
+        self.getSpotifySongsViewController.getSpotifyPlaylistSongs(playlistID: self.playlist.id, callback: { resp in
             
             // remove activity indicator
             self.showActivityIndicator = false
@@ -97,20 +98,15 @@ struct HostPlaylistRootView: View {
                 // get songs
                 var songQueue = resp.songs!
                 
-                // pull first song
-                let currentSong = songQueue.remove(at: 0)
-                
-                // set current song
-                self.hostMainViewController.currentSong = currentSong
-                
                 // set song list
                 self.hostMainViewController.spotifySongListViewController.setSongs(songs: songQueue)
                 
                 // play song
-                self.hostMainViewController.playPlaylist(playlistID: self.playlistID)
+                self.hostMainViewController.playPlaylist(playlistID: self.playlist.id)
             }
         })
     }
+
     
     var body: some View {
         NavigationView() {
@@ -123,27 +119,15 @@ struct HostPlaylistRootView: View {
                     //current song VStack
                     VStack {
                         if !self.hostMainViewController.currentSong.id.isEmpty {
-                            // current song view
-                            SpotifyHostCurrentSongView(hostMainViewController: self.hostMainViewController)
-                        }
-                        
-                        // song progress bar
-                        /*
-                        HStack {
-                            Text(self.hostMainViewController.songProgressString)
-                            Group{
-                                if self.hostMainViewController.songProgressMilliSeconds <= 0 {
-                                    ProgressBar(progressPercent: 0.0)
-                                }else{
-                                    ProgressBar(progressPercent: CGFloat(self.hostMainViewController.songProgressMilliSeconds/self.hostMainViewController.currentSong.lengthMS))
+                            NavigationLink(destination: HostPlaylistCurrentSongPlayerView(hostMainViewController: self.hostMainViewController)){
+                                VStack{
+                                    // current song view
+                                    SpotifyHostCurrentSongView(hostMainViewController: self.hostMainViewController)
                                 }
                             }
-                            Text(self.hostMainViewController.currentSong.stringLength)
+                            .frame(width: g.size.width)
+                            .buttonStyle(PlainButtonStyle())
                         }
-                        .padding(.leading, 15)
-                        .padding(.trailing, 15)
-                        .frame(width: g.size.width, height: 8.0)
-                        */
                     }
                     
                     // songs view
@@ -162,34 +146,28 @@ struct HostPlaylistRootView: View {
             }
         
             // Navigation title
-            .navigationBarTitle(Text(self.spotifyPlaylistData.name), displayMode: .inline)
-                
+            .navigationBarTitle(Text(self.hostMainViewController.spotifyPlaylistData.name), displayMode: .inline)
                 
             // Navigation button 1
             .navigationBarItems(leading:
                 NavigationLink(destination: InfoView()){
                     HStack{
-                       
                         Image(systemName: "info.circle.fill")
-                            .foregroundColor(.white)
-                        
                     }
                 }.font(.custom("Helvetica-Bold", size: 24)),
                                 trailing:
                 NavigationLink(destination: InfoView()){
                     HStack{
-                        
                         Image(systemName: "person.3.fill")
-                            .foregroundColor(.white)
-                        
                     }
                 }.font(.custom("Helvetica-Bold", size: 20))
             )
+            
+            .background(NavigationConfigurator { nc in
+                nc.navigationBar.tintColor = .white
+            })
         }
         .onAppear(){
-            // show activity
-            self.showActivityIndicator = true
-            
             // root view appears
             self.onViewStartup()
         }
@@ -197,8 +175,8 @@ struct HostPlaylistRootView: View {
 }
 
 struct HostPlaylistRootView_Previews: PreviewProvider {
-    @State static var playID: String = "3JuZ7JkllY2RfYL5ML1zLh"
+    @State static var play: MixItPlaylistModel = MixItPlaylistModel()
     static var previews: some View {
-        HostPlaylistRootView(playlistID: self.$playID).colorScheme(.dark)
+        HostPlaylistRootView(playlist: self.$play).colorScheme(.dark)
     }
 }

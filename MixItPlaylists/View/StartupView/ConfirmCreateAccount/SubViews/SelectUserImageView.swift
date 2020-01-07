@@ -82,6 +82,7 @@ struct SelectUserImageView: View {
             .background(NavigationConfigurator { nc in
                 nc.navigationBar.setBackgroundImage(UIImage(),for: .default)
                 nc.navigationBar.shadowImage = UIImage()
+                nc.navigationBar.tintColor = .white
             })
             .navigationBarHidden(true)
         }

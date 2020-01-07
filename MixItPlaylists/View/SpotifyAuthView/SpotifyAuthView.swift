@@ -15,6 +15,12 @@ struct SpotifyAuthView: View {
     // activity indicator
     @State private var showActivityIndicator: Bool = false
     
+    // alert object
+    @State private var alertObj: AlertObject = AlertObject()
+    
+    // show alert
+    @State private var showSpotifyAlert: Bool = false
+    
     /// MARK: Functions
     init(isSpotifyAuthed: Binding<Bool>) {
 
@@ -29,8 +35,21 @@ struct SpotifyAuthView: View {
         // remove activity indicator
         self.showActivityIndicator = false
         
-        // start spotify session
-        self.isSpotifyAuthed = true
+        // get status
+        if let _ = notification.userInfo?["status"] as? String {
+            // start spotify session
+            self.isSpotifyAuthed = true
+        }else if let error = notification.userInfo?["error"] as? String {
+            print("SHOW ERROR - +++++ FIX THIS +++++")
+            // show known error
+            self.alertObj = AlertObject(title: "Alert", message: error, button: "Try Again")
+            self.showSpotifyAlert = true
+        }else{
+            // show unknown error
+            self.alertObj = AlertObject(title: "Alert", message: "An unknown error has occurred.", button: "Try Again")
+            self.showSpotifyAlert = true
+        }
+        
     }
     
     private func loginSpotifyButtonAction() {
@@ -81,6 +100,9 @@ struct SpotifyAuthView: View {
                         }
                         .cornerRadius(20)
                         .padding(.top, 30)
+                        .alert(isPresented: self.$showSpotifyAlert) {
+                            Alert(title: Text(self.alertObj.title), message: Text(self.alertObj.message), dismissButton: .default(Text(self.alertObj.button)))
+                        }
                         
                         Spacer()
                     }
@@ -95,6 +117,7 @@ struct SpotifyAuthView: View {
                         Text("Need Help?")
                             .font(.custom("Helvetica", size: 16))
                     }
+                    
                     Spacer()
                 }
                 .frame(width: g.size.width, height: g.size.height/4)
@@ -103,6 +126,7 @@ struct SpotifyAuthView: View {
                 .background(NavigationConfigurator { nc in
                     nc.navigationBar.setBackgroundImage(UIImage(),for: .default)
                     nc.navigationBar.shadowImage = UIImage()
+                    nc.navigationBar.tintColor = .white
                 })
                 
             }

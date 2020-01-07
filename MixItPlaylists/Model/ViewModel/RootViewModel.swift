@@ -12,6 +12,6 @@ enum RootViewTypes: String {
     case
         LAUNCH,
         AUTH,
-        HOME
-        //HOST_PLAYLIST
+        HOME,
+        HOST_PLAYLIST
 }

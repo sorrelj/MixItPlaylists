@@ -27,11 +27,24 @@ final class HostPlaylistViewController: ObservableObject {
     // play or paused status
     @Published var playbackStatus: String = SpotifyConstants.PAUSE_ICON
     
+    // Playlist info State vars
+    @Published var spotifyPlaylistData: SpotifyPlaylistModel = SpotifyPlaylistModel()
+    
+    // Song progress pcnt
+    @Published var songProgressPercent: CGFloat = 0
+    
+    // Song progress String
+    @Published var songProgressString: String = "0:00"
+    
+    
     /// MARK: Controller vars
 
     // Spotify Song List View Controller
     @ObservedObject var spotifySongListViewController = SpotifySongListViewController()
+
     
+    /// MARK: Private vars
+    private var progressTimer: Timer? = nil
     
     
     // session manager
@@ -65,10 +78,11 @@ final class HostPlaylistViewController: ObservableObject {
         NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "playerStateChange"), object: nil, queue: nil, using: self.onPlayerStateChange)
     }
 
+    
     // play a song
     func playPlaylist(playlistID: String){
-        // play playlist
-        self.appRemote.playerAPI?.play(SpotifyConstants.PLAYLIST+playlistID, callback: nil)
+        // set current song
+        self.setCurrentSong(song: self.spotifySongListViewController.getAndRemoveFirst())
         
         // set shuffle to false
         self.appRemote.playerAPI?.setShuffle(false, callback: nil)
@@ -76,6 +90,40 @@ final class HostPlaylistViewController: ObservableObject {
         // set mode to repeat playlist
         self.appRemote.playerAPI?.setRepeatMode(.context, callback: nil)
         
+        // play playlist
+        self.appRemote.playerAPI?.play(SpotifyConstants.PLAYLIST+playlistID, callback: nil)
+    }
+    
+    // start progress timer
+    func startProgressTimer() {
+        // get player state to start timer at
+        self.appRemote.playerAPI?.getPlayerState({ (result, error) in
+            if error != nil {
+                // error do something
+                print("SPOTIFY START PROGRESS ERROR")
+            }else{
+                // player state
+                let playerState = result as! SPTAppRemotePlayerState
+                
+                // set initial values
+                
+                // progress percent
+                self.songProgressPercent = CGFloat(Float(playerState.playbackPosition)/Float(playerState.track.duration))
+                
+                // progress string
+                self.songProgressString = self.msToString(ms: Float(playerState.playbackPosition))
+                
+                // start timer
+                self.progressTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.updateProgress), userInfo: nil, repeats: true)
+            }
+        })
+    }
+    
+    // stop the timer
+    func stopProgressTimer() {
+        if self.progressTimer != nil {
+            self.progressTimer?.invalidate()
+        }
     }
     
     // play / pause track
@@ -106,11 +154,22 @@ final class HostPlaylistViewController: ObservableObject {
         })
     }
     
+    // next song
+    func nextSongAction() {
+        self.appRemote.playerAPI?.skip(toNext: nil)
+    }
+    
+    
     
     /// MARK: Private Helper Functions
     // set the current song
     private func setCurrentSong(song: SpotifySongModel){
+        // set the song data
         self.currentSong = song
+        
+        // reset timer vars
+        self.songProgressPercent = 0
+        self.songProgressString = "0:00"
     }
     
     // player state change notification
@@ -135,9 +194,10 @@ final class HostPlaylistViewController: ObservableObject {
         let tempSong = self.currentSong
         
         // change current song
-        self.currentSong = self.spotifySongListViewController.getAndRemoveFirst()
+        self.setCurrentSong(song: self.spotifySongListViewController.getAndRemoveFirst())
         
         // add old song back in
+        // if not empy song
         self.spotifySongListViewController.addSongToEnd(song: tempSong)
         
     }
@@ -160,4 +220,47 @@ final class HostPlaylistViewController: ObservableObject {
         })
     }
     
+    // update progress
+    @objc private func updateProgress(){
+        // get player state
+        self.appRemote.playerAPI?.getPlayerState({ (result, error) in
+            if error != nil {
+                // error do something
+                print("SPOTIFY UPDATE PROGRESS ERROR")
+            }else{
+                // player state
+                let playerState = result as! SPTAppRemotePlayerState
+                
+                // set values
+
+                // progress percent
+                self.songProgressPercent = CGFloat(Float(playerState.playbackPosition)/Float(playerState.track.duration))
+                
+                // progress string
+                self.songProgressString = self.msToString(ms: Float(playerState.playbackPosition))
+            }
+        }
+        
+        )
+    }
+    
+    // milliseconds to string
+    private func msToString(ms: Float) -> String {
+        // get minutes
+        let min = Int(floor(ms/60000))
+        
+        // remove minute
+        let temp = Float(Int(ms) % 60000)
+        
+        // get seconds
+        let sec = Int(floor(temp/1000))
+        
+        // convert seconds to string
+        var secondStr = sec.description
+        if sec < 10 {
+            secondStr = "0" + secondStr
+        }
+        
+        return (min.description + ":" + secondStr)
+    }
 }

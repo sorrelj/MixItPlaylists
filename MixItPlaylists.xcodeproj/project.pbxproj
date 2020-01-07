@@ -18,6 +18,7 @@
 		A20ED66D238475B90043CC90 /* SpotifyAPIRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20ED66C238475B90043CC90 /* SpotifyAPIRequest.swift */; };
 		A20ED66F238475C90043CC90 /* SpotifyAPIResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20ED66E238475C90043CC90 /* SpotifyAPIResponse.swift */; };
 		A20ED6712384A4BE0043CC90 /* ConfirmUserImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20ED6702384A4BE0043CC90 /* ConfirmUserImageView.swift */; };
+		A2162F3E23B93BDE00DE33C5 /* HostPlaylistCurrentSongPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2162F3D23B93BDE00DE33C5 /* HostPlaylistCurrentSongPlayerView.swift */; };
 		A2189084234166B5008FBA2C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2189083234166B5008FBA2C /* AppDelegate.swift */; };
 		A2189086234166B5008FBA2C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2189085234166B5008FBA2C /* SceneDelegate.swift */; };
 		A2189088234166B5008FBA2C /* StartupTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2189087234166B5008FBA2C /* StartupTabView.swift */; };
@@ -38,6 +39,8 @@
 		A25317062391007E003A41D1 /* LaunchScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A25317052391007E003A41D1 /* LaunchScreenView.swift */; };
 		A25317092391947F003A41D1 /* HomeInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A25317082391947F003A41D1 /* HomeInfoView.swift */; };
 		A253170C23919604003A41D1 /* LogoutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A253170B23919604003A41D1 /* LogoutViewController.swift */; };
+		A26B2A6F23C52CBF00C73D25 /* GetFriendsAndRequestsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26B2A6E23C52CBF00C73D25 /* GetFriendsAndRequestsController.swift */; };
+		A26B2A7123C52D8C00C73D25 /* UserFriendsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26B2A7023C52D8C00C73D25 /* UserFriendsModel.swift */; };
 		A26C17AD2346BB9E00F8396B /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26C17AC2346BB9E00F8396B /* LoginViewController.swift */; };
 		A26C17B32346C2D700F8396B /* APINetworkController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26C17B22346C2D700F8396B /* APINetworkController.swift */; };
 		A26C17B62346C43400F8396B /* APIRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26C17B52346C43400F8396B /* APIRequest.swift */; };
@@ -46,8 +49,6 @@
 		A28116F123680070009E3AD7 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A28116F023680070009E3AD7 /* RootView.swift */; };
 		A28116F4236800D5009E3AD7 /* RootViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A28116F3236800D5009E3AD7 /* RootViewModel.swift */; };
 		A28116F72368C41A009E3AD7 /* CreatePlaylistView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A28116F62368C41A009E3AD7 /* CreatePlaylistView.swift */; };
-		A28116FA2368C5C6009E3AD7 /* JoinPlaylistView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A28116F92368C5C6009E3AD7 /* JoinPlaylistView.swift */; };
-		A28116FD2368C615009E3AD7 /* UserPlaylistsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A28116FC2368C615009E3AD7 /* UserPlaylistsView.swift */; };
 		A28117002368D12C009E3AD7 /* MixItPlaylistModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A28116FF2368D12C009E3AD7 /* MixItPlaylistModel.swift */; };
 		A286382E23AB304000666229 /* HostPlaylistSongTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A286382D23AB304000666229 /* HostPlaylistSongTabView.swift */; };
 		A286383123AB338700666229 /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A286383023AB338700666229 /* TestView.swift */; };
@@ -78,6 +79,17 @@
 		A2D41901234FD44800764104 /* AlertObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2D41900234FD44800764104 /* AlertObject.swift */; };
 		A2D419032357E68E00764104 /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2D419022357E68E00764104 /* ActivityIndicator.swift */; };
 		A2D4190523588F6F00764104 /* SignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2D4190423588F6F00764104 /* SignupViewController.swift */; };
+		A2E44EDE23BBCCAD00C7B8D6 /* HomePlaylistView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2E44EDD23BBCCAD00C7B8D6 /* HomePlaylistView.swift */; };
+		A2E44EE123BBCEBF00C7B8D6 /* GetPlaylistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2E44EE023BBCEBF00C7B8D6 /* GetPlaylistViewController.swift */; };
+		A2E44EE323BBF15600C7B8D6 /* GetMyPlaylistsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2E44EE223BBF15600C7B8D6 /* GetMyPlaylistsController.swift */; };
+		A2E44EE623BD33F100C7B8D6 /* UserDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2E44EE523BD33F100C7B8D6 /* UserDataModel.swift */; };
+		A2E44EE823BFEFD500C7B8D6 /* ConfirmStartPlaylistView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2E44EE723BFEFD500C7B8D6 /* ConfirmStartPlaylistView.swift */; };
+		A2E44EEA23C150B300C7B8D6 /* FriendsRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2E44EE923C150B300C7B8D6 /* FriendsRootView.swift */; };
+		A2E44EEC23C1526B00C7B8D6 /* SearchUsersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2E44EEB23C1526B00C7B8D6 /* SearchUsersView.swift */; };
+		A2E44EF423C1669000C7B8D6 /* SearchUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2E44EF323C1669000C7B8D6 /* SearchUserViewController.swift */; };
+		A2E44EF723C1671A00C7B8D6 /* SearchedUserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2E44EF623C1671A00C7B8D6 /* SearchedUserModel.swift */; };
+		A2E44EF923C16D8600C7B8D6 /* GetUserImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2E44EF823C16D8600C7B8D6 /* GetUserImage.swift */; };
+		A2E44EFB23C2904C00C7B8D6 /* ParseUsersController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2E44EFA23C2904C00C7B8D6 /* ParseUsersController.swift */; };
 		A2FEDB672384B64E00E27B8F /* SelectUserImageScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2FEDB662384B64E00E27B8F /* SelectUserImageScrollView.swift */; };
 		A2FEDB692385131600E27B8F /* ConfirmUserImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2FEDB682385131600E27B8F /* ConfirmUserImageViewController.swift */; };
 /* End PBXBuildFile section */
@@ -111,6 +123,7 @@
 		A20ED66C238475B90043CC90 /* SpotifyAPIRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyAPIRequest.swift; sourceTree = "<group>"; };
 		A20ED66E238475C90043CC90 /* SpotifyAPIResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyAPIResponse.swift; sourceTree = "<group>"; };
 		A20ED6702384A4BE0043CC90 /* ConfirmUserImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmUserImageView.swift; sourceTree = "<group>"; };
+		A2162F3D23B93BDE00DE33C5 /* HostPlaylistCurrentSongPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HostPlaylistCurrentSongPlayerView.swift; sourceTree = "<group>"; };
 		A2189080234166B5008FBA2C /* Mix It Playlists.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Mix It Playlists.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A2189083234166B5008FBA2C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A2189085234166B5008FBA2C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -137,6 +150,8 @@
 		A25317052391007E003A41D1 /* LaunchScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScreenView.swift; sourceTree = "<group>"; };
 		A25317082391947F003A41D1 /* HomeInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeInfoView.swift; sourceTree = "<group>"; };
 		A253170B23919604003A41D1 /* LogoutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoutViewController.swift; sourceTree = "<group>"; };
+		A26B2A6E23C52CBF00C73D25 /* GetFriendsAndRequestsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetFriendsAndRequestsController.swift; sourceTree = "<group>"; };
+		A26B2A7023C52D8C00C73D25 /* UserFriendsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFriendsModel.swift; sourceTree = "<group>"; };
 		A26C17AC2346BB9E00F8396B /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		A26C17B22346C2D700F8396B /* APINetworkController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APINetworkController.swift; sourceTree = "<group>"; };
 		A26C17B52346C43400F8396B /* APIRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIRequest.swift; sourceTree = "<group>"; };
@@ -145,8 +160,6 @@
 		A28116F023680070009E3AD7 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		A28116F3236800D5009E3AD7 /* RootViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewModel.swift; sourceTree = "<group>"; };
 		A28116F62368C41A009E3AD7 /* CreatePlaylistView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePlaylistView.swift; sourceTree = "<group>"; };
-		A28116F92368C5C6009E3AD7 /* JoinPlaylistView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinPlaylistView.swift; sourceTree = "<group>"; };
-		A28116FC2368C615009E3AD7 /* UserPlaylistsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPlaylistsView.swift; sourceTree = "<group>"; };
 		A28116FF2368D12C009E3AD7 /* MixItPlaylistModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MixItPlaylistModel.swift; sourceTree = "<group>"; };
 		A286382D23AB304000666229 /* HostPlaylistSongTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HostPlaylistSongTabView.swift; sourceTree = "<group>"; };
 		A286383023AB338700666229 /* TestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestView.swift; sourceTree = "<group>"; };
@@ -178,6 +191,17 @@
 		A2D41900234FD44800764104 /* AlertObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertObject.swift; sourceTree = "<group>"; };
 		A2D419022357E68E00764104 /* ActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
 		A2D4190423588F6F00764104 /* SignupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupViewController.swift; sourceTree = "<group>"; };
+		A2E44EDD23BBCCAD00C7B8D6 /* HomePlaylistView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePlaylistView.swift; sourceTree = "<group>"; };
+		A2E44EE023BBCEBF00C7B8D6 /* GetPlaylistViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetPlaylistViewController.swift; sourceTree = "<group>"; };
+		A2E44EE223BBF15600C7B8D6 /* GetMyPlaylistsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetMyPlaylistsController.swift; sourceTree = "<group>"; };
+		A2E44EE523BD33F100C7B8D6 /* UserDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDataModel.swift; sourceTree = "<group>"; };
+		A2E44EE723BFEFD500C7B8D6 /* ConfirmStartPlaylistView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmStartPlaylistView.swift; sourceTree = "<group>"; };
+		A2E44EE923C150B300C7B8D6 /* FriendsRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsRootView.swift; sourceTree = "<group>"; };
+		A2E44EEB23C1526B00C7B8D6 /* SearchUsersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchUsersView.swift; sourceTree = "<group>"; };
+		A2E44EF323C1669000C7B8D6 /* SearchUserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchUserViewController.swift; sourceTree = "<group>"; };
+		A2E44EF623C1671A00C7B8D6 /* SearchedUserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchedUserModel.swift; sourceTree = "<group>"; };
+		A2E44EF823C16D8600C7B8D6 /* GetUserImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetUserImage.swift; sourceTree = "<group>"; };
+		A2E44EFA23C2904C00C7B8D6 /* ParseUsersController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseUsersController.swift; sourceTree = "<group>"; };
 		A2FEDB662384B64E00E27B8F /* SelectUserImageScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectUserImageScrollView.swift; sourceTree = "<group>"; };
 		A2FEDB682385131600E27B8F /* ConfirmUserImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmUserImageViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -323,8 +347,6 @@
 				A22CE68223AAD3250004F219 /* HostPlaylistView */,
 				A2B9342E237C945A00EAF4FB /* SpotifyAuthView */,
 				A2B9342D237B86D600EAF4FB /* SocialView */,
-				A28116FB2368C5FE009E3AD7 /* UserPlaylistsView */,
-				A28116F82368C5B1009E3AD7 /* JoinPlaylistView */,
 				A28116F52368C3DF009E3AD7 /* CreatePlaylistView */,
 				A2B86A58235B89B700CAF91B /* HomeView */,
 				A21890C52341A5F7008FBA2C /* CustomUIComponents */,
@@ -337,6 +359,8 @@
 		A21890B823417EC6008FBA2C /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				A2E44EF523C166EC00C7B8D6 /* MixItSocialModels */,
+				A2E44EE423BD33DB00C7B8D6 /* UserDataModel */,
 				A290780E238DDB3A007DE5C2 /* KeychainModel */,
 				A20ED669238473410043CC90 /* SpotifyDataModel */,
 				A2D37CD723737AD600B42EA5 /* ExternalLinkModel */,
@@ -351,6 +375,7 @@
 		A21890B923417ECC008FBA2C /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				A2E44EF223C1667A00C7B8D6 /* SocialViewControllers */,
 				A286384423AC06C100666229 /* SpotifySongListViewControllers */,
 				A286383623AB3BE200666229 /* SpotifySongViewControllers */,
 				A286383523AB3BBE00666229 /* SpotifyPlaylistViewControllers */,
@@ -405,6 +430,7 @@
 			children = (
 				A22CE68323AAD33F0004F219 /* HostPlaylistRootView.swift */,
 				A286382D23AB304000666229 /* HostPlaylistSongTabView.swift */,
+				A2162F3D23B93BDE00DE33C5 /* HostPlaylistCurrentSongPlayerView.swift */,
 			);
 			path = HostPlaylistView;
 			sourceTree = "<group>";
@@ -487,22 +513,6 @@
 				A28116F62368C41A009E3AD7 /* CreatePlaylistView.swift */,
 			);
 			path = CreatePlaylistView;
-			sourceTree = "<group>";
-		};
-		A28116F82368C5B1009E3AD7 /* JoinPlaylistView */ = {
-			isa = PBXGroup;
-			children = (
-				A28116F92368C5C6009E3AD7 /* JoinPlaylistView.swift */,
-			);
-			path = JoinPlaylistView;
-			sourceTree = "<group>";
-		};
-		A28116FB2368C5FE009E3AD7 /* UserPlaylistsView */ = {
-			isa = PBXGroup;
-			children = (
-				A28116FC2368C615009E3AD7 /* UserPlaylistsView.swift */,
-			);
-			path = UserPlaylistsView;
 			sourceTree = "<group>";
 		};
 		A28116FE2368D117009E3AD7 /* MixItPlaylistModel */ = {
@@ -597,6 +607,7 @@
 		A2B86A58235B89B700CAF91B /* HomeView */ = {
 			isa = PBXGroup;
 			children = (
+				A2E44EDC23BBCC9D00C7B8D6 /* HomePlaylistView */,
 				A25317072391945D003A41D1 /* InfoViews */,
 				A26FE72B235EC3F700136EB3 /* HomePageView.swift */,
 			);
@@ -606,6 +617,7 @@
 		A2B86A59235B89BE00CAF91B /* HomeViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				A2E44EDF23BBCEA900C7B8D6 /* PlaylistViewControllers */,
 				A253170A239195D7003A41D1 /* InfoViewControllers */,
 			);
 			path = HomeViewControllers;
@@ -641,6 +653,8 @@
 		A2B9342D237B86D600EAF4FB /* SocialView */ = {
 			isa = PBXGroup;
 			children = (
+				A2E44EE923C150B300C7B8D6 /* FriendsRootView.swift */,
+				A2E44EEB23C1526B00C7B8D6 /* SearchUsersView.swift */,
 			);
 			path = SocialView;
 			sourceTree = "<group>";
@@ -676,6 +690,52 @@
 				A2D41900234FD44800764104 /* AlertObject.swift */,
 			);
 			path = UIComponentModels;
+			sourceTree = "<group>";
+		};
+		A2E44EDC23BBCC9D00C7B8D6 /* HomePlaylistView */ = {
+			isa = PBXGroup;
+			children = (
+				A2E44EDD23BBCCAD00C7B8D6 /* HomePlaylistView.swift */,
+				A2E44EE723BFEFD500C7B8D6 /* ConfirmStartPlaylistView.swift */,
+			);
+			path = HomePlaylistView;
+			sourceTree = "<group>";
+		};
+		A2E44EDF23BBCEA900C7B8D6 /* PlaylistViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				A2E44EE023BBCEBF00C7B8D6 /* GetPlaylistViewController.swift */,
+				A2E44EE223BBF15600C7B8D6 /* GetMyPlaylistsController.swift */,
+			);
+			path = PlaylistViewControllers;
+			sourceTree = "<group>";
+		};
+		A2E44EE423BD33DB00C7B8D6 /* UserDataModel */ = {
+			isa = PBXGroup;
+			children = (
+				A2E44EE523BD33F100C7B8D6 /* UserDataModel.swift */,
+			);
+			path = UserDataModel;
+			sourceTree = "<group>";
+		};
+		A2E44EF223C1667A00C7B8D6 /* SocialViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				A2E44EF323C1669000C7B8D6 /* SearchUserViewController.swift */,
+				A2E44EF823C16D8600C7B8D6 /* GetUserImage.swift */,
+				A2E44EFA23C2904C00C7B8D6 /* ParseUsersController.swift */,
+				A26B2A6E23C52CBF00C73D25 /* GetFriendsAndRequestsController.swift */,
+			);
+			path = SocialViewControllers;
+			sourceTree = "<group>";
+		};
+		A2E44EF523C166EC00C7B8D6 /* MixItSocialModels */ = {
+			isa = PBXGroup;
+			children = (
+				A2E44EF623C1671A00C7B8D6 /* SearchedUserModel.swift */,
+				A26B2A7023C52D8C00C73D25 /* UserFriendsModel.swift */,
+			);
+			path = MixItSocialModels;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -811,21 +871,29 @@
 			files = (
 				A26C17AD2346BB9E00F8396B /* LoginViewController.swift in Sources */,
 				A286384323AC066900666229 /* SpotifySongListView.swift in Sources */,
+				A2E44EE623BD33F100C7B8D6 /* UserDataModel.swift in Sources */,
+				A2E44EE323BBF15600C7B8D6 /* GetMyPlaylistsController.swift in Sources */,
 				A21890C423418A1A008FBA2C /* AppIconView.swift in Sources */,
 				A2189084234166B5008FBA2C /* AppDelegate.swift in Sources */,
 				A26C17B32346C2D700F8396B /* APINetworkController.swift in Sources */,
 				A286384823AC25C900666229 /* SpotifyHostCurrentSongView.swift in Sources */,
 				A2D419032357E68E00764104 /* ActivityIndicator.swift in Sources */,
 				A286384C23AEAE1300666229 /* SpotifyConstants.swift in Sources */,
+				A2E44EEA23C150B300C7B8D6 /* FriendsRootView.swift in Sources */,
 				A2A19E7223A6ECF600877B9E /* SpotifyAuthController.swift in Sources */,
 				A2189086234166B5008FBA2C /* SceneDelegate.swift in Sources */,
+				A2E44EF723C1671A00C7B8D6 /* SearchedUserModel.swift in Sources */,
 				A286383E23ABF3BE00666229 /* SpotifySongModel.swift in Sources */,
 				A20ED65D2382490A0043CC90 /* ConfirmAccountVeiw.swift in Sources */,
 				A26C17B82346CCE600F8396B /* APIResponse.swift in Sources */,
+				A2162F3E23B93BDE00DE33C5 /* HostPlaylistCurrentSongPlayerView.swift in Sources */,
+				A26B2A7123C52D8C00C73D25 /* UserFriendsModel.swift in Sources */,
 				A286383C23ABF2D000666229 /* GetSpotifySongsViewController.swift in Sources */,
 				A21890C92341B2E0008FBA2C /* RoundedTextField.swift in Sources */,
+				A2E44EDE23BBCCAD00C7B8D6 /* HomePlaylistView.swift in Sources */,
 				A2B93425237B521500EAF4FB /* GetForgotPasswordCodeView.swift in Sources */,
 				A286384623AC06D900666229 /* SpotifySongListViewController.swift in Sources */,
+				A2E44EF923C16D8600C7B8D6 /* GetUserImage.swift in Sources */,
 				A253170423906BEE003A41D1 /* StartupAuthViewController.swift in Sources */,
 				A2D37CD923737AFB00B42EA5 /* ExternalLinkModel.swift in Sources */,
 				A28116F72368C41A009E3AD7 /* CreatePlaylistView.swift in Sources */,
@@ -838,15 +906,16 @@
 				A286382E23AB304000666229 /* HostPlaylistSongTabView.swift in Sources */,
 				A21890BE23417F72008FBA2C /* LoginView.swift in Sources */,
 				A22CE68423AAD33F0004F219 /* HostPlaylistRootView.swift in Sources */,
+				A2E44EE123BBCEBF00C7B8D6 /* GetPlaylistViewController.swift in Sources */,
 				A2B9342C237B712F00EAF4FB /* ChangePasswordViewController.swift in Sources */,
 				A26C17B62346C43400F8396B /* APIRequest.swift in Sources */,
 				A2189088234166B5008FBA2C /* StartupTabView.swift in Sources */,
 				A21890C223417F9E008FBA2C /* InfoView.swift in Sources */,
+				A2E44EEC23C1526B00C7B8D6 /* SearchUsersView.swift in Sources */,
 				A25317062391007E003A41D1 /* LaunchScreenView.swift in Sources */,
 				A20ED664238272F50043CC90 /* ResendConfirmationCodeController.swift in Sources */,
 				A286384A23AD4B8E00666229 /* ProgressBar.swift in Sources */,
 				A286383123AB338700666229 /* TestView.swift in Sources */,
-				A28116FD2368C615009E3AD7 /* UserPlaylistsView.swift in Sources */,
 				A20ED65F238249670043CC90 /* SelectUserImageView.swift in Sources */,
 				A2D4190523588F6F00764104 /* SignupViewController.swift in Sources */,
 				A28117002368D12C009E3AD7 /* MixItPlaylistModel.swift in Sources */,
@@ -858,14 +927,16 @@
 				A20ED66D238475B90043CC90 /* SpotifyAPIRequest.swift in Sources */,
 				A245DF6E237D2005003C7959 /* NavigationConfigurator.swift in Sources */,
 				A28B6D1B237CA7230000F010 /* SpotifyAuthHelpView.swift in Sources */,
+				A2E44EF423C1669000C7B8D6 /* SearchUserViewController.swift in Sources */,
 				A290780D238DB7B9007DE5C2 /* KeychainController.swift in Sources */,
 				A253170C23919604003A41D1 /* LogoutViewController.swift in Sources */,
+				A2E44EFB23C2904C00C7B8D6 /* ParseUsersController.swift in Sources */,
 				A28116F123680070009E3AD7 /* RootView.swift in Sources */,
 				A26FE72C235EC3F700136EB3 /* HomePageView.swift in Sources */,
 				A2B9342A237B712200EAF4FB /* ForgotPasswordViewController.swift in Sources */,
+				A2E44EE823BFEFD500C7B8D6 /* ConfirmStartPlaylistView.swift in Sources */,
 				A28116F4236800D5009E3AD7 /* RootViewModel.swift in Sources */,
 				A20ED65A237E13930043CC90 /* ConfirmCreateAccountMainView.swift in Sources */,
-				A28116FA2368C5C6009E3AD7 /* JoinPlaylistView.swift in Sources */,
 				A20ED66823841EBA0043CC90 /* SelectUserImageViewController.swift in Sources */,
 				A2CF86B123A0CB5300E65797 /* ImagePickerViewController.swift in Sources */,
 				A20ED66B2384735B0043CC90 /* SpotifyArtistModel.swift in Sources */,
@@ -875,6 +946,7 @@
 				A2FEDB672384B64E00E27B8F /* SelectUserImageScrollView.swift in Sources */,
 				A2D41901234FD44800764104 /* AlertObject.swift in Sources */,
 				A286383423AB38AF00666229 /* HostPlaylistViewController.swift in Sources */,
+				A26B2A6F23C52CBF00C73D25 /* GetFriendsAndRequestsController.swift in Sources */,
 				A2B93430237C949A00EAF4FB /* SpotifyAuthView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1040,6 +1112,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"MixItPlaylists/Preview Content\"";
 				DEVELOPMENT_TEAM = MGX94F74HZ;
@@ -1056,6 +1129,7 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.MixIt.MixItPlaylists;
 				PRODUCT_NAME = "Mix It Playlists";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "MixItPlaylists/MixItPlaylists-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1066,6 +1140,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"MixItPlaylists/Preview Content\"";
 				DEVELOPMENT_TEAM = MGX94F74HZ;
@@ -1082,6 +1157,7 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.MixIt.MixItPlaylists;
 				PRODUCT_NAME = "Mix It Playlists";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "MixItPlaylists/MixItPlaylists-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

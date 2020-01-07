@@ -38,11 +38,19 @@ struct SpotifyHostCurrentSongView: View {
                     .padding(.leading,12)
                     .font(.custom("Helvetica", size: 12))
                 
-                // play / pause button
-                Button(action: self.hostMainViewController.changePlaybackStatus) {
-                    Image(systemName: self.hostMainViewController.playbackStatus)
-                        .font(.custom("Helvetica", size: 30))
+                HStack {
+                    // play / pause button
+                    Button(action: self.hostMainViewController.changePlaybackStatus) {
+                        Image(systemName: self.hostMainViewController.playbackStatus)
+                    }
+                
+                    // skip button
+                    Button(action: self.hostMainViewController.nextSongAction) {
+                        Image(systemName: "forward.fill")
+                    }
+                    .padding(.leading, 10)
                 }
+                .font(.custom("Helvetica", size: 30))
                 .padding(.top, 10)
                 .padding(.leading, 12)
                 

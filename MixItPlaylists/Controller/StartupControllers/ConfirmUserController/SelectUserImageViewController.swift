@@ -113,7 +113,6 @@ final class SelectUserImageViewController: ObservableObject {
     
     private func parseItems(items: [Any]){
         
-        let itemDisp = DispatchGroup()
         
         // parse the data
         for item in items {
@@ -125,20 +124,11 @@ final class SelectUserImageViewController: ObservableObject {
                 return
             }
             
-            self.parseSingleItem(itemX: json, itemDisp: itemDisp)
+            self.parseSingleItem(itemX: json)
         }
-        
-        // update the table view
-//        itemDisp.notify(queue: .main, execute: {
-//
-//            self.artists = self.tempArtists
-//            print("Done",self.artists.count)
-//        })
-
-    
     }
     
-    private func parseSingleItem(itemX: [String: Any], itemDisp: DispatchGroup){
+    private func parseSingleItem(itemX: [String: Any]){
         self.artistData_DispatchQueue.async {
             // get id
             guard let id = itemX["id"] as? String else{
@@ -184,7 +174,6 @@ final class SelectUserImageViewController: ObservableObject {
             }
             
             
-            //itemDisp.leave()
         }
     }
     

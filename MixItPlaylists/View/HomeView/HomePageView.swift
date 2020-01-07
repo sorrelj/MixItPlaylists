@@ -10,9 +10,26 @@ import SwiftUI
 
 struct HomePageView: View {
     
+    /// MARK: binding vars
+    
+    // root view
     @Binding var rootView: RootViewTypes
     
-   
+    // selected playlist ID
+    @Binding var selectedPlaylist: MixItPlaylistModel
+    
+    /// MARK: Controllers
+    // my playlists controller
+    @ObservedObject var myPlaylistsController = GetPlaylistViewController(type: .MY_PLAYLISTS)
+    
+    // friends playlists controller
+    @ObservedObject var friendPlaylistsController = GetPlaylistViewController(type: .FRIENDS_PLAYLISTS)
+    
+    // nearby playlists controller
+    @ObservedObject var nearbyPlaylistsController = GetPlaylistViewController(type: .NEARBY_PLAYLISTS)
+    
+    
+    /// MARK: View
     var body: some View {
         VStack{
             NavigationView() {
@@ -24,62 +41,20 @@ struct HomePageView: View {
                     VStack{
                         // top half
                         VStack{
-                            Text("Welcome Back!")
-                                .bold()
-                                .font(.custom("Helvetica", size: 40))
-                                .padding(.top, 35)
-                            
-                            Spacer()
-                            
-                            // join and host playlist
-                            HStack{
-                                Spacer()
-                                
-                                NavigationLink(destination: CreatePlaylistView()) {
-                                    Text("Create a Playlist")
-                                        .font(.custom("Helvetica", size: 15))
-                                        .padding(.top, 10)
-                                        .padding(.bottom, 10)
-                                        .padding(.leading, 24)
-                                        .padding(.trailing, 24)
-                                        .background(Color.pink)
-                                        .foregroundColor(Color.white)
-                                }
-                                .cornerRadius(20)
-                                
-                                
-                                Spacer()
-                                
-                                NavigationLink(destination: JoinPlaylistView()) {
-                                    Text("Join a Playlist")
-                                        .font(.custom("Helvetica", size: 15))
-                                        .padding(.top, 10)
-                                        .padding(.bottom, 10)
-                                        .padding(.leading, 24)
-                                        .padding(.trailing, 24)
-                                        .background(Color.pink)
-                                        .foregroundColor(Color.white)
-                                }
-                                .cornerRadius(20)
-                                
-                                Spacer()
-                            }
-                            
-                            Spacer()
-                            
-                            VStack {
-                                Text("My Playlists")
-                                    .font(.custom("Helvetica-Bold", size: 25))
-                                    .frame(width: g.size.width, alignment: .center)
-                            }
-                            
-                        }.frame(width: g.size.width, height: g.size.height/3)
-                        
-                        // table view
-                        VStack{
-                            UserPlaylistsView()
+                            HomePlaylistView(playlistViewName: "My Playlists", rootView: self.$rootView, getPlaylists: self.myPlaylistsController, selectedPlaylist: self.$selectedPlaylist)
                         }
-                        .frame(maxWidth: g.size.width, maxHeight: 2*g.size.height/3)
+                        .frame(minWidth: g.size.width, maxHeight: g.size.height/3)
+                        
+                        VStack{
+                            HomePlaylistView(playlistViewName: "My Friends' Playlists", rootView: self.$rootView, getPlaylists: self.friendPlaylistsController, selectedPlaylist: self.$selectedPlaylist)
+                        }
+                        .frame(minWidth: g.size.width, maxHeight: g.size.height/3)
+                        
+                        // join and host playlist
+                        VStack {
+                            HomePlaylistView(playlistViewName: "Nearby Playlists", rootView: self.$rootView, getPlaylists: self.nearbyPlaylistsController, selectedPlaylist: self.$selectedPlaylist)
+                        }
+                        .frame(minWidth: g.size.width, maxHeight: g.size.height/3)
                     }
                     }
                 
@@ -99,7 +74,7 @@ struct HomePageView: View {
                         }
                     }.font(.custom("Helvetica-Bold", size: 24)),
                                     trailing:
-                    NavigationLink(destination: InfoView()){
+                    NavigationLink(destination: FriendsRootView()){
                         HStack{
                             
                             Image(systemName: "person.3.fill")
@@ -108,9 +83,10 @@ struct HomePageView: View {
                         }
                     }.font(.custom("Helvetica-Bold", size: 20))
                 )
-                    
-
                 
+                .background(NavigationConfigurator { nc in
+                    nc.navigationBar.tintColor = .white
+                })
                 
             }
         }
@@ -120,7 +96,8 @@ struct HomePageView: View {
 
 struct HomePageView_Previews: PreviewProvider {
     @State static var root: RootViewTypes = .HOME
+    @State static var play: MixItPlaylistModel = MixItPlaylistModel()
     static var previews: some View {
-        HomePageView(rootView: $root).colorScheme(.dark)
+        HomePageView(rootView: $root, selectedPlaylist: $play).colorScheme(.dark)
     }
 }

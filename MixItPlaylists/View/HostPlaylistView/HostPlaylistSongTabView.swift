@@ -25,7 +25,7 @@ struct HostPlaylistSongTabView: View {
     
     var body: some View {
         TabView (selection: self.$currentTab) {
-            UserPlaylistsView()
+            InfoView()
                 .tabItem {
                     Image(systemName: self.notificationNumberIcon)
                     Text("Song Requests")
@@ -35,7 +35,7 @@ struct HostPlaylistSongTabView: View {
                     Image(systemName: "music.note.list")
                     Text("Playlist Queue")
                 }.tag(2)
-            UserPlaylistsView()
+            InfoView()
                 .tabItem {
                     Image(systemName: "magnifyingglass.circle.fill")
                     Text("Add Songs")

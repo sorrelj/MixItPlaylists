@@ -9,7 +9,6 @@
 import SwiftUI
 
 struct ConfirmUserImageView: View {
-    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
     // state
     @State var showConfirmAlert: Bool = false
@@ -41,10 +40,6 @@ struct ConfirmUserImageView: View {
 //    }
     
     
-    // go back action
-    func goBackButtonAction() {
-        self.presentationMode.wrappedValue.dismiss()
-    }
     
     func confirmButtonAction() {
         // activity indicator
@@ -81,7 +76,6 @@ struct ConfirmUserImageView: View {
                 
                 // title vstack
                 VStack {
-                    Spacer()
                     // Main Title
                     Text("Mix It Playlists")
                         .font(.custom("Helvetica-Bold", size: 40))
@@ -163,16 +157,6 @@ struct ConfirmUserImageView: View {
         }
         .navigationBarTitle(Text(""), displayMode: .inline)
         .navigationBarHidden(false)
-        .navigationBarItems(leading:
-            Button(action: self.goBackButtonAction){
-                HStack{
-                    Image(systemName: "chevron.left")
-                        .foregroundColor(.white)
-                    Text("Back")
-                        .foregroundColor(.white)
-                }
-            }.font(.custom("Helvetica", size: 20))
-        )
     }
 }
 

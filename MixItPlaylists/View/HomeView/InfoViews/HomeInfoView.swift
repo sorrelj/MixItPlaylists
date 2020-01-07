@@ -32,10 +32,6 @@ struct HomeInfoView: View {
         
     }
     
-    private func backButtonAction(){
-        self.presentationMode.wrappedValue.dismiss()
-    }
-    
     private func logout() {
         logoutController.logout(callback: { stat in
             if (stat){
@@ -103,19 +99,6 @@ struct HomeInfoView: View {
                 }}
             }
         }
-        .navigationBarItems(leading:
-            Button(action: self.backButtonAction){
-                HStack{
-                    Image(systemName: "chevron.left")
-                        .foregroundColor(.white)
-                    Text("Back")
-                        .foregroundColor(.white)
-                }
-            }.font(.custom("Helvetica", size: 20))
-        )
-        
-        
-        
         
     }
 }

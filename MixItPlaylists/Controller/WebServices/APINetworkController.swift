@@ -30,10 +30,16 @@ class APINetworkController {
         var request = URLRequest(url: url)
         request.httpMethod = req.requestType //set http method
         
-        do {
-            request.httpBody = try JSONSerialization.data(withJSONObject: params, options: .prettyPrinted) // pass dictionary to nsdata object and set it as request body
-        } catch let error {
-            print(error.localizedDescription)
+        if req.requestType == "POST" {
+            do {
+                request.httpBody = try JSONSerialization.data(withJSONObject: params, options: .prettyPrinted) // pass dictionary to nsdata object and set it as request body
+            } catch let error {
+                print(error.localizedDescription)
+            }
+        }else{
+            for (key, value) in params {
+                request.addValue(value, forHTTPHeaderField: key)
+            }
         }
         
         request.addValue("otT7gBa6PHdQ6oyiwpmz3YiPZRJ9kVg7Vm1xvtgg", forHTTPHeaderField: "x-api-key")
@@ -69,7 +75,8 @@ class APINetworkController {
             // if error
             guard error == nil else {
                 print("ERROR (" + req.requestURL + ") ", error)
-                return
+                // send error
+                return callback(APIResponse(status: 500, responseBody: ["message": "A connection error occured. Please try again."], header: [:]))
             }
             
             // if data cannot be gathered

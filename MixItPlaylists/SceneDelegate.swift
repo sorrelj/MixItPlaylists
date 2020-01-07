@@ -13,6 +13,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate, SPTAppRemoteDelegate, S
 
     var window: UIWindow?
     
+    /// MARK: Global vars
+    var userData: UserDataModel = UserDataModel()
+    
     
     /// MARK: Spotify vars
     
@@ -137,9 +140,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate, SPTAppRemoteDelegate, S
                     // expire time
                     
                     // send notification
-                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "spotifyConnected"), object: nil)
+                    let notifData: [String: String] = ["status": "connected"]
+                    
+                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "spotifyConnected"), object: nil, userInfo: notifData)
                 }else{
-                    print("ERROR: getting access token", resp.errorMsg)
+                    // send notification
+                    let notifData: [String: String] = ["error": resp.errorMsg]
+                    
+                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "spotifyConnected"), object: nil, userInfo: notifData)
                 }
             })
                 
@@ -237,7 +245,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate, SPTAppRemoteDelegate, S
         print("APP REMOTE CONNECTED")
         
         // send notification
-        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "appRemoteConnected"), object: nil)
+        self.sendAppRemoteStatus(connected: true)
         
         // start player api
         self.appRemote.playerAPI?.delegate = self
@@ -249,12 +257,26 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate, SPTAppRemoteDelegate, S
     
     }
     
+    // app remote disconnected
     func appRemote(_ appRemote: SPTAppRemote, didDisconnectWithError error: Error?) {
       print("disconnected")
     }
     
+    // app remote failed
     func appRemote(_ appRemote: SPTAppRemote, didFailConnectionAttemptWithError error: Error?) {
-      print("failed")
+        print("APP REMOTE FAILED")
+        
+        // send notification
+        self.sendAppRemoteStatus(connected: false)
+    }
+    
+    // send app remote notification
+    private func sendAppRemoteStatus(connected: Bool){
+        // set status connected
+        let notifData: [String: Bool] = ["connected": connected]
+        
+        // send notification
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "appRemoteConnected"), object: nil, userInfo: notifData)
     }
 
     

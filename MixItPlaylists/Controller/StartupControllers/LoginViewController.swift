@@ -76,6 +76,17 @@ final class LoginViewController: ObservableObject {
                 keychain.storeKeychainItem(key: auth, tag: KeychainTags.AUTH.rawValue, callback: { res in
                     // check for error
                     if (res.status == .SUCCESS) {
+                        // set access token on sd
+                        DispatchQueue.main.async {
+                            let scene = UIApplication.shared.connectedScenes.first
+                            guard let sd : SceneDelegate = (scene?.delegate as? SceneDelegate) else {
+                                print("Get scene error")
+                                return
+                            }
+                            
+                            sd.mixItToken = auth
+                        }
+                        
                         // set the login res
                         let resLogin = LoginResponse(
                             status: .AUTHED,

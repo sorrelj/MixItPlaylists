@@ -107,6 +107,8 @@ final class SpotifyAuthController: ObservableObject {
                     spotResp = SpotifyAuthResponse(authed: false, errorMsg: errorDesc)
                 }else if let error = resp.body["error"] as? String {
                     spotResp = SpotifyAuthResponse(authed: false, errorMsg:error)
+                }else if let errorMessage = resp.body["message"] as? String {
+                    spotResp = SpotifyAuthResponse(authed: false, errorMsg: errorMessage)
                 }else{
                     spotResp = SpotifyAuthResponse(authed: false, errorMsg: "unknown error")
                 }

@@ -43,11 +43,6 @@ struct CreatePlaylistView: View {
     
     /// MARK: Functions
     
-    // back button
-    private func backButtonAction(){
-        self.presentationMode.wrappedValue.dismiss()
-    }
-    
     // select existing
     private func selectExistingButtonAction() {
         
@@ -260,17 +255,6 @@ struct CreatePlaylistView: View {
                 ActivityIndicator()
             }
         }
-
-        .navigationBarItems(leading:
-            Button(action: self.backButtonAction){
-                HStack{
-                    Image(systemName: "chevron.left")
-                        .foregroundColor(.white)
-                    Text("Back")
-                        .foregroundColor(.white)
-                }
-            }.font(.custom("Helvetica", size: 20))
-        )
     }
 }
 

@@ -33,10 +33,13 @@ final class StartupAuthViewController: ObservableObject {
                 
                 // perform the api network call
                 APINetworkController().apiNetworkRequest(req: auth, callback: { resp in
-                    print(resp)
-                    
                     // No errors user is authorized
                     if (resp.statusCode == 200){
+                        // get user data
+                        guard let userData = resp.body["user"] as? [String: String] else{
+                            return callback(false)
+                        }
+                        
                         DispatchQueue.main.async {
                             let scene = UIApplication.shared.connectedScenes.first
                             guard let sd : SceneDelegate = (scene?.delegate as? SceneDelegate) else {
@@ -44,7 +47,11 @@ final class StartupAuthViewController: ObservableObject {
                                 return
                             }
                             
+                            // set token
                             sd.mixItToken = res.key
+                            
+                            // set user data
+                            sd.userData =   UserDataModel(username: userData["username"]!,imageID: userData["imageID"]!,number: userData["number"]!)
                         }
 
                         // send callback

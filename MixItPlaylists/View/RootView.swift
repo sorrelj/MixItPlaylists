@@ -9,8 +9,14 @@
 import SwiftUI
 
 struct RootView: View {
+    // root view
     @State var rootViewType: RootViewTypes = .LAUNCH
+    
+    // bool if spotify is connected
     @State var isSpotifyAuthed: Bool = false
+    
+    // playlist ID for host / joined
+    @State var playlist: MixItPlaylistModel = MixItPlaylistModel()
     
     // keychain controller
     private var authController = StartupAuthViewController()
@@ -25,21 +31,21 @@ struct RootView: View {
         }
         .onAppear{self.checkAuth()}
     }
-
-    //TEMP
-    //@State var temp: String = "37i9dQZEVXbLRQDuF5jeBp"
-    
     
     func containedView() -> AnyView {
         switch self.rootViewType {
-            
+            // launch view
             case .LAUNCH: return AnyView(LaunchScreenView())
-            case .AUTH: return AnyView(StartupTabView(rootViewType: self.$rootViewType, isSpotifyAuthed: self.$isSpotifyAuthed ))
-            case .HOME: return AnyView(HomePageView(rootView: self.$rootViewType))
             
-            // TEMP
-            //case .HOST_PLAYLIST: return AnyView(HostPlaylistRootView(playlistID: self.$temp))
-           
+            // login / register root view
+            case .AUTH: return AnyView(StartupTabView(rootViewType:
+                self.$rootViewType, isSpotifyAuthed: self.$isSpotifyAuthed ))
+            
+            // home root view
+            case .HOME: return AnyView(HomePageView(rootView: self.$rootViewType, selectedPlaylist: self.$playlist))
+            
+            // host root view
+            case .HOST_PLAYLIST: return AnyView(HostPlaylistRootView(playlist: self.$playlist))
         }
     }
     

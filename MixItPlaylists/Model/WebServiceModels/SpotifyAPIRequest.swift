@@ -24,7 +24,6 @@ struct SpotifyAPIRequest {
             getArtists = "me/top/artists",
             getMe = "me",
             search = "search"
-        
     }
     
     // url
