@@ -45,7 +45,7 @@ struct RootView: View {
             case .HOME: return AnyView(HomePageView(rootView: self.$rootViewType, selectedPlaylist: self.$playlist))
             
             // host root view
-            case .HOST_PLAYLIST: return AnyView(HostPlaylistRootView(playlist: self.$playlist))
+            case .HOST_PLAYLIST: return AnyView(HostPlaylistRootView(playlist: self.$playlist, rootView: self.$rootViewType))
         }
     }
     

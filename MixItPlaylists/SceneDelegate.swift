@@ -151,9 +151,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate, SPTAppRemoteDelegate, S
                 }
             })
                 
-        } else if let err = parameters?[SPTAppRemoteErrorDescriptionKey] {
+        }else if let access_token = parameters?[SPTAppRemoteAccessTokenKey] {
+            self.appRemote.connectionParameters.accessToken = access_token
+            self.accessToken = access_token
+        }else if let err = parameters?[SPTAppRemoteErrorDescriptionKey] {
             // Show the error
             print(err)
+        }else{
+            print("UNKNOWN ERROR AFTER SPOTIFY RETURNED")
         }
 
     }
@@ -195,6 +200,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate, SPTAppRemoteDelegate, S
     }
 
     // connect to spotify api
+    //  to get access token
     func connect() {
         // if spotify app installed
         if self.sessionManager.isSpotifyAppInstalled {

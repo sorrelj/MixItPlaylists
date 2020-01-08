@@ -70,9 +70,12 @@ final class HostPlaylistViewController: ObservableObject {
     }
     
     // connect app remote
-    func connectAppRemote() {
+    func connectAppRemote(playlistID: String) {
         // connect app remote
-        appRemote.connect()
+        //appRemote.connect()
+        
+        // authorize and play
+        self.appRemote.authorizeAndPlayURI(SpotifyConstants.PLAYLIST+playlistID)
         
         // add notification for player state change
         NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "playerStateChange"), object: nil, queue: nil, using: self.onPlayerStateChange)

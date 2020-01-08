@@ -13,6 +13,19 @@ struct HostPlaylistRootView: View {
     // playlist id
     @Binding var playlist: MixItPlaylistModel
     
+    // root view
+    @Binding var rootView: RootViewTypes
+    
+    /// MARK: State variables
+    // alert object
+    @State private var alertObj: AlertObject = AlertObject()
+    
+    // show alert
+    @State private var showHostAlert: Bool = false
+    
+    // go to home page
+    @State private var goHome: Bool = false
+    
     
     /// MARK: Controllers
     // Host playlist main view controller
@@ -34,6 +47,7 @@ struct HostPlaylistRootView: View {
     
     /// MARK: Private functions
     // on startup
+    /*
     func onViewStartup() {
         // connect app remote if spotify app installed
         if self.hostMainViewController.isSpotifyAppInstalled() {
@@ -48,8 +62,72 @@ struct HostPlaylistRootView: View {
             print("NO SPOTIFY APP")
         }
     }
+    */
+    
+    func onViewStartup(){
+        // make sure spotify app is installed
+        if !self.hostMainViewController.isSpotifyAppInstalled() {
+            // remove activity indicator
+            self.showActivityIndicator = false
+            
+            // show alert
+            self.alertObj = AlertObject(title: "Alert", message: "The Spotify App must be installed to play music.", button: "OK")
+            self.showHostAlert = true
+            
+            // set go to home page when alert is closed
+            self.goHome = true
+            
+            return
+        }
+        
+        // get playlist details
+        if self.playlist.spotifyData.id.isEmpty {
+            // get the data
+            self.getSpotifyPlaylistViewController.getSingleSpotifyPlaylist(playlistID: self.playlist.id, callback: { resp in
+                            
+                // check for error
+                if resp.error {
+                    print(resp.errorMessage)
+                    //display error
+                }else{
+                    DispatchQueue.main.async {
+                        // set playlist data
+                        self.hostMainViewController.spotifyPlaylistData = resp.playlistData!
+                    }
+                }
+            })
+        }else{
+            // set the data
+            self.hostMainViewController.spotifyPlaylistData = self.playlist.spotifyData
+        }
+        
+        // get playlist tracks
+        self.getSpotifySongsViewController.getSpotifyPlaylistSongs(playlistID: self.playlist.id, callback: { resp in
+            
+            // remove activity indicator
+            self.showActivityIndicator = false
+            
+            // check error
+            if resp.error {
+                print(resp.errorMessage)
+                // handle error
+            }else{
+                // get songs
+                let songQueue = resp.songs!
+                
+                // set song list
+                self.hostMainViewController.spotifySongListViewController.setSongs(songs: songQueue)
+                
+                // play song
+                //self.hostMainViewController.playPlaylist(playlistID: self.playlist.id)
+                self.hostMainViewController.connectAppRemote(playlistID: self.playlist.id)
+            }
+        })
+    }
+    
     
     // when the app remote is connected
+    /*
     private func onAppRemoteConnected(_ notification: Notification){
         
         // get connection status
@@ -106,7 +184,7 @@ struct HostPlaylistRootView: View {
             }
         })
     }
-
+    */
     
     var body: some View {
         NavigationView() {
@@ -135,6 +213,14 @@ struct HostPlaylistRootView: View {
                         // song table view
                         HostPlaylistSongTabView(spotifySongListViewController: self.hostMainViewController.spotifySongListViewController)
                     }
+                }
+                .alert(isPresented: self.$showHostAlert){
+                    Alert(title: Text(self.alertObj.title), message: Text(self.alertObj.message), dismissButton: .default(Text(self.alertObj.button), action: {
+                        if self.goHome {
+                            // root view home
+                            self.rootView = .HOME
+                        }
+                    }))
                 }
                 }
                 
@@ -176,7 +262,8 @@ struct HostPlaylistRootView: View {
 
 struct HostPlaylistRootView_Previews: PreviewProvider {
     @State static var play: MixItPlaylistModel = MixItPlaylistModel()
+    @State static var root: RootViewTypes = .HOST_PLAYLIST
     static var previews: some View {
-        HostPlaylistRootView(playlist: self.$play).colorScheme(.dark)
+        HostPlaylistRootView(playlist: self.$play, rootView: self.$root).colorScheme(.dark)
     }
 }
