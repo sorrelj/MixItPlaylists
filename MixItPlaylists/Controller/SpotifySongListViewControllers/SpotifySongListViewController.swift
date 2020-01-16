@@ -18,8 +18,23 @@ final class SpotifySongListViewController: ObservableObject {
     
     
     // set initial songs
-    func setSongs(songs: [SpotifySongModel]){
-        self.songs = songs
+    func setSongs(songs: [SpotifySongModel], position: Int){
+        if self.songs.isEmpty {
+            self.songs = songs
+        }else{
+            var tempSongs: [SpotifySongModel] = []
+            if position != songs.count-1 {
+                for i in (position+1)...songs.count-1 {
+                    tempSongs.append(songs[i])
+                }
+            }
+            if position != 0 {
+                for i in 0...position-1 {
+                    tempSongs.append(songs[i])
+                }
+            }
+            self.songs = tempSongs
+        }
     }
     
     // get and remove first song

@@ -14,26 +14,16 @@ import CryptoKit
 
 // MARK: Spotify Playlist Response
 struct SpotifySongsResponse {
-    // playlist data
-    var songs: [SpotifySongModel]?
     
     // error
     var error: Bool
     // error message
     var errorMessage: String
     
-    init(songs: [SpotifySongModel]){
-        self.songs = songs
-        
-        self.error = false
-        self.errorMessage = ""
-    }
     
-    init (errorMessage: String){
-        self.error = true
+    init (error: Bool, errorMessage: String){
+        self.error = error
         self.errorMessage = errorMessage
-        
-        self.songs = nil
     }
     
 }
@@ -43,18 +33,108 @@ struct SpotifySongsResponse {
 
 final class GetSpotifySongsViewController: ObservableObject {
     
+    /// MARK: Variables
+    // current song
+    @Published var currentSong: SpotifySongModel = SpotifySongModel()
+    
+    // Spotify Song List View Controller
+    @ObservedObject var spotifySongListViewController = SpotifySongListViewController()
+    
+    // raw song list
+    var rawSongList: [SpotifySongModel] = []
+    
+    // position of current song
+    var position: Int = -1
+    
     // Dispatch Queues
     var trackData_DispatchQueue = DispatchQueue(label: "trackData-queue")
     
-    // get a spotify playlist's songs
-    func getSpotifyPlaylistSongs(playlistID: String, callback: @escaping (SpotifySongsResponse)->() ){
+    // playlist id
+    var playlistID: String = ""
+    
+    /// MARK: Functions
+    
+    // on startup
+    func onStartup(playlistID: String, callback: @escaping (SpotifySongsResponse)->()){
+        // set playlist id
+        self.playlistID = playlistID
         
-        guard playlistID != "" else {
+        // get initial playlist
+        self.getSpotifyPlaylistSongs(callback: { resp in
+            return callback(resp)
+        })
+        
+    }
+    
+    // add or request spotify song
+    func addOrRequestSong(isHost: Bool, song: SpotifySongModel, callback: @escaping (SpotifySongsResponse)->()){
+        // if host add to playlist
+        if isHost {
+            // add song to playlist
+            
+            // set request
+            let req = SpotifyAPIRequest(requestType: .POST, rawName: "playlists/"+self.playlistID+"/tracks", params: ["uris": [SpotifyConstants.TRACK+song.id]], expectedResponse: .nothing)
+            
+            // send request
+            SpotifyWebAPIController().spotifyWebAPIRequest(req: req, callback: { resp in
+                // set resp
+                let hostResp: SpotifySongsResponse
+                
+                if resp.error {
+                    // send error resonse
+                    hostResp = SpotifySongsResponse(error: true, errorMessage: "Error add your song.")
+                }else{
+                    hostResp = SpotifySongsResponse(error: false, errorMessage: "")
+                }
+                
+                // refresh playlist
+                DispatchQueue.main.async {
+                    self.getSpotifyPlaylistSongs(callback: { resp in
+                        if resp.error {
+                            return callback(resp)
+                        }else{
+                            return callback(hostResp)
+                        }
+                    })
+                }
+            })
+            
+        // else send request to host
+        }else{
+            // send request to host
+        }
+        
+    }
+    
+    // set current song to next in list
+    func setCurrentSongNext(){
+        // set current song as next song
+        if !self.currentSong.id.isEmpty {
+            let temp = self.currentSong
+            self.spotifySongListViewController.addSongToEnd(song: temp)
+        }
+        
+        // remove first set current song
+        self.currentSong = self.spotifySongListViewController.getAndRemoveFirst()
+        
+        // update position
+        self.position += 1
+        if self.position == self.rawSongList.count {
+            self.position = 0
+        }
+        
+        print("POSITION: ",self.position)
+    }
+    
+    // get a spotify playlist's songs
+    func getSpotifyPlaylistSongs(callback: @escaping (SpotifySongsResponse)->() ){
+        
+        guard self.playlistID != "" else {
             return
         }
         
         // set endpoint
-        let endpoint = "playlists/" + playlistID + "/tracks"
+        let endpoint = "playlists/" + self.playlistID + "/tracks"
         
         // set request
         let req = SpotifyAPIRequest(requestType: .GET, rawName: endpoint, params: ["fields": "items(track(id,name,duration_ms,artists,album(id,name,images))),next", "limit": "100"], expectedResponse: .nothing)
@@ -65,11 +145,11 @@ final class GetSpotifySongsViewController: ObservableObject {
             if (resp.error) {
                 // handle error
                 print(resp.error, resp.errorData)
-                return callback(SpotifySongsResponse(errorMessage: "error data"))
+                return callback(SpotifySongsResponse(error: true,errorMessage: "error data"))
             }else{
                 // parse songs
                 guard let songs = resp.dataObject["items"] as? [[String: Any]] else{
-                    return callback(SpotifySongsResponse(errorMessage: "error data"))
+                    return callback(SpotifySongsResponse(error: true,errorMessage: "error data"))
                 }
                 
                 // check for more songs
@@ -79,18 +159,31 @@ final class GetSpotifySongsViewController: ObservableObject {
                     // more songs to add
                     DispatchQueue.main.async {
                         self.continueAddingSongs(url: next, songList: songs, callback: { finalSongList in
+                            
+                            // full song list
+                            
+                            // parse all items in song list
                             self.parseAllItems(songs: finalSongList, callback: { resp in
-                                return callback(SpotifySongsResponse(songs: resp))
+                                
+                                // set songs view
+                                self.spotifySongListViewController.setSongs(songs: resp, position: self.position)
+                                                                
+                                return callback(SpotifySongsResponse(error: false, errorMessage: ""))
                             })
+                            
                         })
                     }
                 }else{
                     // no more songs to add
                     self.parseAllItems(songs: songs, callback: { resp in
                         if (resp.count > 0){
-                            return callback(SpotifySongsResponse(songs: resp))
+                            
+                            // set songs view
+                            self.spotifySongListViewController.setSongs(songs: resp, position: self.position)
+                            
+                            return callback(SpotifySongsResponse(error: false, errorMessage: ""))
                         }else{
-                            return callback(SpotifySongsResponse(errorMessage: "error data"))
+                            return callback(SpotifySongsResponse(error: true, errorMessage: "error data"))
                         }
                     })
                 }
@@ -148,6 +241,7 @@ final class GetSpotifySongsViewController: ObservableObject {
             var spotifySongs = [SpotifySongModel]()
         
             // parse the data
+            var pos: Int = 0
             for trackData in songs {
                 itemDisp.enter()
                 
@@ -157,23 +251,27 @@ final class GetSpotifySongsViewController: ObservableObject {
                     return
                 }
                                 
-                self.parseSingleItem(itemX: track, callback: { sSong in
+                self.parseSingleItem(itemX: track, pos: pos, callback: { sSong in
                     // add item
                     spotifySongs.append(sSong)
                     
                     itemDisp.leave()
                 })
+                
+                // update position
+                pos += 1
             }
             
             // done getting all songs
             itemDisp.notify(queue: .main, execute: {
+                self.rawSongList = spotifySongs
                 return callback(spotifySongs)
             })
         
     }
     
     // parse a single song
-    private func parseSingleItem(itemX: [String: Any], callback: @escaping (SpotifySongModel)->()){
+    private func parseSingleItem(itemX: [String: Any], pos: Int, callback: @escaping (SpotifySongModel)->()){
         self.trackData_DispatchQueue.async {
             
             // Song data
@@ -182,6 +280,10 @@ final class GetSpotifySongsViewController: ObservableObject {
             guard let songID = itemX["id"] as? String else{
                 print("error - song id")
                 return
+            }
+            
+            if pos < self.rawSongList.count && songID == self.rawSongList[pos].id {
+                return callback(self.rawSongList[pos])
             }
             
             // name
@@ -292,7 +394,6 @@ final class GetSpotifySongsViewController: ObservableObject {
         
         return (min.description + ":" + secondStr)
     }
-    
     
 }
 

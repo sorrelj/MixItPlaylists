@@ -20,7 +20,7 @@ struct SpotifyHostCurrentSongView: View {
         // image / title / artist
         HStack(alignment: .top) {
             // image
-            Image(uiImage: self.hostMainViewController.currentSong.album.image)
+            Image(uiImage: self.hostMainViewController.getSpotifySongsViewController.currentSong.album.image)
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(width:128, height:128)
@@ -28,13 +28,13 @@ struct SpotifyHostCurrentSongView: View {
             // title artist
             VStack(alignment: .leading) {
                 // song name
-                Text(self.hostMainViewController.currentSong.name)
+                Text(self.hostMainViewController.getSpotifySongsViewController.currentSong.name)
                     .font(.custom("Helvetica", size: 16))
                     .lineLimit(1)
                     .padding(.bottom, 8)
                 
                 // artist name
-                Text(self.hostMainViewController.currentSong.artist.name)
+                Text(self.hostMainViewController.getSpotifySongsViewController.currentSong.artist.name)
                     .padding(.leading,12)
                     .font(.custom("Helvetica", size: 12))
                 
@@ -71,7 +71,7 @@ struct SpotifyHostCurrentSongView_Previews: PreviewProvider {
     static var previews: some View {
         SpotifyHostCurrentSongView(hostMainViewController: host)
         .onAppear() {
-            host.currentSong = SpotifySongModel(id: "abc", name: "Song Name", lengthMS: 1234, stringLength: "0:00", artistID: "123", artistName: "Artist Name...", albumID: "xyz", albumName: "Album Name...", albumImage: UIImage(systemName: "square.fill")!)
+            host.getSpotifySongsViewController.currentSong = SpotifySongModel(id: "abc", name: "Song Name", lengthMS: 1234, stringLength: "0:00", artistID: "123", artistName: "Artist Name...", albumID: "xyz", albumName: "Album Name...", albumImage: UIImage(systemName: "square.fill")!)
         }
     }
 }

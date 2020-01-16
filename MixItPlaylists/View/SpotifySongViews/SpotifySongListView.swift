@@ -10,7 +10,7 @@ import SwiftUI
 
 struct SpotifySongListView: View {
     
-    @ObservedObject var spotifySongs: SpotifySongListViewController
+    @ObservedObject var spotifySongListViewController: SpotifySongListViewController
     
     var body: some View {
         ZStack {
@@ -23,7 +23,7 @@ struct SpotifySongListView: View {
             ScrollView(.vertical, showsIndicators: true) {
             VStack {
                 
-                ForEach(self.spotifySongs.songs){ song in
+                ForEach(self.spotifySongListViewController.songs){ song in
                     // image / title / artist
                     HStack(alignment: .center) {
                         // image
@@ -65,10 +65,10 @@ struct SpotifySongListView: View {
 struct SpotifySongListView_Previews: PreviewProvider {
     @ObservedObject static var getSongs = SpotifySongListViewController()
     static var previews: some View {
-        SpotifySongListView(spotifySongs: getSongs)
+        SpotifySongListView(spotifySongListViewController: getSongs)
             .colorScheme(.dark)
             .onAppear(){
-                getSongs.setSongs(songs: [SpotifySongModel(id: "abc", name: "Song Name", lengthMS: 1234, stringLength: "0:00", artistID: "123", artistName: "Artist Name...", albumID: "xyz", albumName: "Album Name...", albumImage: UIImage(systemName: "square.fill")!)])
+                self.getSongs.setSongs(songs: [SpotifySongModel(id: "abc", name: "Song Name", lengthMS: 1234, stringLength: "0:00", artistID: "123", artistName: "Artist Name...", albumID: "xyz", albumName: "Album Name...", albumImage: UIImage(systemName: "square.fill")!)], position: 0)
         }
     }
 }

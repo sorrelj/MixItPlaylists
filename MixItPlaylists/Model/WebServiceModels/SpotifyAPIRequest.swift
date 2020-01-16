@@ -30,7 +30,7 @@ struct SpotifyAPIRequest {
     var requestURL: String
     
     // body / query params
-    var parameters: [String: String]
+    var parameters: [String: Any]
     var customParams: [String] = []
     
     enum expectedResponse: String {
@@ -47,7 +47,7 @@ struct SpotifyAPIRequest {
     
     init(requestType: httpRequest,
          name: requestName,
-         params: [String: String],
+         params: [String: Any],
          expectedResponse: expectedResponse){
         
         self.requestType = requestType.rawValue
@@ -58,7 +58,7 @@ struct SpotifyAPIRequest {
     
     init(requestType: httpRequest,
          rawName: String,
-         params: [String: String],
+         params: [String: Any],
          expectedResponse: expectedResponse){
         
         self.requestType = requestType.rawValue

@@ -21,8 +21,6 @@ final class HostPlaylistViewController: ObservableObject {
     
     /// MARK: Published Controller vars
     
-    // current song
-    @Published var currentSong: SpotifySongModel = SpotifySongModel()
    
     // play or paused status
     @Published var playbackStatus: String = SpotifyConstants.PAUSE_ICON
@@ -38,12 +36,17 @@ final class HostPlaylistViewController: ObservableObject {
     
     
     /// MARK: Controller vars
-
-    // Spotify Song List View Controller
-    @ObservedObject var spotifySongListViewController = SpotifySongListViewController()
+    
+    // Get Spotify Songs View Controller
+    @ObservedObject var getSpotifySongsViewController = GetSpotifySongsViewController()
 
     
     /// MARK: Private vars
+    // playlist ID
+    private var playlistID: String = ""
+    
+    
+    // progress timer
     private var progressTimer: Timer? = nil
     
     
@@ -71,21 +74,22 @@ final class HostPlaylistViewController: ObservableObject {
     
     // connect app remote
     func connectAppRemote(playlistID: String) {
-        // connect app remote
-        //appRemote.connect()
+        // set playlist id
+        self.playlistID = playlistID
         
-        // authorize and play
-        self.appRemote.authorizeAndPlayURI(SpotifyConstants.PLAYLIST+playlistID)
+        // wake up spotify app
+        self.appRemote.authorizeAndPlayURI(SpotifyConstants.TRACK)
         
-        // add notification for player state change
-        NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "playerStateChange"), object: nil, queue: nil, using: self.onPlayerStateChange)
+        // add app remote connected notification
+        // add notifation reciever
+        NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "appRemoteConnected"), object: nil, queue: nil, using: self.onAppRemoteConnected)
     }
 
     
-    // play a song
-    func playPlaylist(playlistID: String){
+    // when the app remote is connected
+    func onAppRemoteConnected(_ notification: Notification){
         // set current song
-        self.setCurrentSong(song: self.spotifySongListViewController.getAndRemoveFirst())
+        self.setCurrentSong()
         
         // set shuffle to false
         self.appRemote.playerAPI?.setShuffle(false, callback: nil)
@@ -94,7 +98,10 @@ final class HostPlaylistViewController: ObservableObject {
         self.appRemote.playerAPI?.setRepeatMode(.context, callback: nil)
         
         // play playlist
-        self.appRemote.playerAPI?.play(SpotifyConstants.PLAYLIST+playlistID, callback: nil)
+        self.appRemote.playerAPI?.play(SpotifyConstants.PLAYLIST+self.playlistID, callback: nil)
+        
+        // add notification for player state change
+        NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "playerStateChange"), object: nil, queue: nil, using: self.onPlayerStateChange)
     }
     
     // start progress timer
@@ -166,9 +173,9 @@ final class HostPlaylistViewController: ObservableObject {
     
     /// MARK: Private Helper Functions
     // set the current song
-    private func setCurrentSong(song: SpotifySongModel){
+    private func setCurrentSong(){
         // set the song data
-        self.currentSong = song
+        self.getSpotifySongsViewController.setCurrentSongNext()
         
         // reset timer vars
         self.songProgressPercent = 0
@@ -189,19 +196,15 @@ final class HostPlaylistViewController: ObservableObject {
         }
         
         // ignore no song change
-        guard playerState.track.uri != (SpotifyConstants.TRACK + self.currentSong.id) else {
+        guard playerState.track.uri != (SpotifyConstants.TRACK + self.getSpotifySongsViewController.currentSong.id) else {
             return
         }
         
         // store old current song
-        let tempSong = self.currentSong
+        let tempSong = self.getSpotifySongsViewController.currentSong
         
         // change current song
-        self.setCurrentSong(song: self.spotifySongListViewController.getAndRemoveFirst())
-        
-        // add old song back in
-        // if not empy song
-        self.spotifySongListViewController.addSongToEnd(song: tempSong)
+        self.setCurrentSong()
         
     }
     

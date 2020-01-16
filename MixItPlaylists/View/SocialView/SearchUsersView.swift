@@ -108,7 +108,6 @@ struct SearchUsersView: View {
             
             // show alert
             self.showSendRequestAlert = true
-            
         })
     }
     

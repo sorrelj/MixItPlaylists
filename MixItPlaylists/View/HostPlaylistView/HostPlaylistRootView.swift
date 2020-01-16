@@ -34,11 +34,6 @@ struct HostPlaylistRootView: View {
     // Get Spotify Playlist View Controller
     @ObservedObject var getSpotifyPlaylistViewController = GetSpotifyPlaylistViewController()
     
-    // Get Spotify Songs View Controller
-    @ObservedObject var getSpotifySongsViewController = GetSpotifySongsViewController()
-    
-    
-    
     /// MARK: State vars
     
     // activity indicator
@@ -46,24 +41,8 @@ struct HostPlaylistRootView: View {
     
     
     /// MARK: Private functions
-    // on startup
-    /*
-    func onViewStartup() {
-        // connect app remote if spotify app installed
-        if self.hostMainViewController.isSpotifyAppInstalled() {
-            // add notifation reciever
-            NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "appRemoteConnected"), object: nil, queue: nil, using: self.onAppRemoteConnected)
-        
-            // connect app remote
-            self.hostMainViewController.connectAppRemote()
-        }else{
-            // Display error
-            // must have spotify app
-            print("NO SPOTIFY APP")
-        }
-    }
-    */
-    
+
+    // on view startup
     func onViewStartup(){
         // make sure spotify app is installed
         if !self.hostMainViewController.isSpotifyAppInstalled() {
@@ -102,7 +81,7 @@ struct HostPlaylistRootView: View {
         }
         
         // get playlist tracks
-        self.getSpotifySongsViewController.getSpotifyPlaylistSongs(playlistID: self.playlist.id, callback: { resp in
+        self.hostMainViewController.getSpotifySongsViewController.onStartup(playlistID: self.playlist.id, callback: { resp in
             
             // remove activity indicator
             self.showActivityIndicator = false
@@ -112,79 +91,23 @@ struct HostPlaylistRootView: View {
                 print(resp.errorMessage)
                 // handle error
             }else{
-                // get songs
-                let songQueue = resp.songs!
-                
-                // set song list
-                self.hostMainViewController.spotifySongListViewController.setSongs(songs: songQueue)
-                
                 // play song
-                //self.hostMainViewController.playPlaylist(playlistID: self.playlist.id)
                 self.hostMainViewController.connectAppRemote(playlistID: self.playlist.id)
             }
         })
     }
     
-    
-    // when the app remote is connected
     /*
-    private func onAppRemoteConnected(_ notification: Notification){
+     
+        move get spotify songs view controller to host main view calss
+     
         
-        // get connection status
-        guard let connected = notification.userInfo?["connected"] as? Bool else {
-            print("GET APP REMOTE STATUS ERROR")
-            return
-        }
-        
-        guard connected == true else {
-            print("APP REMOTE CONNECTION ERROR")
-            return
-        }
-        
-        // get the playlist details if needed
-        if self.playlist.spotifyData.id.isEmpty {
-            // get the data
-            self.getSpotifyPlaylistViewController.getSingleSpotifyPlaylist(playlistID: self.playlist.id, callback: { resp in
-                            
-                // check for error
-                if resp.error {
-                    print(resp.errorMessage)
-                    //display error
-                }else{
-                    DispatchQueue.main.async {
-                        // set playlist data
-                        self.hostMainViewController.spotifyPlaylistData = resp.playlistData!
-                    }
-                }
-            })
-        }else{
-            // set the data
-            self.hostMainViewController.spotifyPlaylistData = self.playlist.spotifyData
-        }
-        
-        // get playlist tracks
-        self.getSpotifySongsViewController.getSpotifyPlaylistSongs(playlistID: self.playlist.id, callback: { resp in
-            
-            // remove activity indicator
-            self.showActivityIndicator = false
-            
-            // check error
-            if resp.error {
-                print(resp.errorMessage)
-                // handle error
-            }else{
-                // get songs
-                var songQueue = resp.songs!
-                
-                // set song list
-                self.hostMainViewController.spotifySongListViewController.setSongs(songs: songQueue)
-                
-                // play song
-                self.hostMainViewController.playPlaylist(playlistID: self.playlist.id)
-            }
-        })
-    }
-    */
+     
+     
+     
+     
+     */
+    
     
     var body: some View {
         NavigationView() {
@@ -196,7 +119,7 @@ struct HostPlaylistRootView: View {
                 VStack{
                     //current song VStack
                     VStack {
-                        if !self.hostMainViewController.currentSong.id.isEmpty {
+                        if !self.hostMainViewController.getSpotifySongsViewController.currentSong.id.isEmpty {
                             NavigationLink(destination: HostPlaylistCurrentSongPlayerView(hostMainViewController: self.hostMainViewController)){
                                 VStack{
                                     // current song view
@@ -211,7 +134,7 @@ struct HostPlaylistRootView: View {
                     // songs view
                     VStack{
                         // song table view
-                        HostPlaylistSongTabView(spotifySongListViewController: self.hostMainViewController.spotifySongListViewController)
+                        HostPlaylistSongTabView(getSpotifySongsViewController: self.hostMainViewController.getSpotifySongsViewController)
                     }
                 }
                 .alert(isPresented: self.$showHostAlert){
@@ -242,7 +165,7 @@ struct HostPlaylistRootView: View {
                     }
                 }.font(.custom("Helvetica-Bold", size: 24)),
                                 trailing:
-                NavigationLink(destination: InfoView()){
+                NavigationLink(destination: FriendsRootView()){
                     HStack{
                         Image(systemName: "person.3.fill")
                     }

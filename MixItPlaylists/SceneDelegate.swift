@@ -126,34 +126,20 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate, SPTAppRemoteDelegate, S
         let parameters = appRemote.authorizationParameters(from: url)
             
         if let access_code = parameters?[self.spotifyReturnAccessCodeKey] {
-            // post to swap for access token
-            spotifyAuthController.authUser(type: .swap, code: access_code, callback: { resp in
-                if (resp.authed){
-                    // parse resp data
-                    
-                    // access token
-                    self.accessToken = resp.accessToken
-                    print(self.accessToken)
-                    
-                    // refresh token
-                    
-                    // expire time
-                    
-                    // send notification
-                    let notifData: [String: String] = ["status": "connected"]
-                    
-                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "spotifyConnected"), object: nil, userInfo: notifData)
-                }else{
-                    // send notification
-                    let notifData: [String: String] = ["error": resp.errorMsg]
-                    
-                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "spotifyConnected"), object: nil, userInfo: notifData)
-                }
+            // send request to get token
+            DispatchQueue.main.asyncAfter(deadline: .now()+0.25, execute: {
+                self.getSpotifyAccessToken(code: access_code)
             })
-                
         }else if let access_token = parameters?[SPTAppRemoteAccessTokenKey] {
+            print("CONNECTED WITH AUTHORIZE AND PLAY")
+            
+            // set new parameters
             self.appRemote.connectionParameters.accessToken = access_token
             self.accessToken = access_token
+            
+            // connect app remote
+            self.appRemote.connect()
+            
         }else if let err = parameters?[SPTAppRemoteErrorDescriptionKey] {
             // Show the error
             print(err)
@@ -206,7 +192,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate, SPTAppRemoteDelegate, S
         if self.sessionManager.isSpotifyAppInstalled {
             // auth through the app
             sessionManager.initiateSession(with: self.sessionManagerScopes, options: .default)
-        
         // Spotify app not installed
         }else{
             // auth through web view
@@ -243,6 +228,34 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate, SPTAppRemoteDelegate, S
             }
             
         }
+    }
+    
+    // get access token with code
+    func getSpotifyAccessToken(code: String){
+        // post to swap for access token
+        spotifyAuthController.authUser(type: .swap, code: code, callback: { resp in
+            if (resp.authed){
+                // parse resp data
+                
+                // access token
+                self.accessToken = resp.accessToken
+                print(self.accessToken)
+                
+                // refresh token
+                
+                // expire time
+                
+                // send notification
+                let notifData: [String: String] = ["status": "connected"]
+                
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "spotifyConnected"), object: nil, userInfo: notifData)
+            }else{
+                // send notification
+                let notifData: [String: String] = ["error": resp.errorMsg]
+                
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "spotifyConnected"), object: nil, userInfo: notifData)
+            }
+        })
     }
     
     

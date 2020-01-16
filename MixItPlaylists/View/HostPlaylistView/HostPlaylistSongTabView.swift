@@ -13,7 +13,7 @@ struct HostPlaylistSongTabView: View {
     /// MARK: binding vars
     
     // playlist songs view controller
-    @ObservedObject var spotifySongListViewController: SpotifySongListViewController
+    @ObservedObject var getSpotifySongsViewController: GetSpotifySongsViewController
     
     
     /// MARK: State vars
@@ -30,12 +30,12 @@ struct HostPlaylistSongTabView: View {
                     Image(systemName: self.notificationNumberIcon)
                     Text("Song Requests")
                 }.tag(1)
-            SpotifySongListView(spotifySongs: self.spotifySongListViewController)
+            SpotifySongListView(spotifySongListViewController: self.getSpotifySongsViewController.spotifySongListViewController)
                 .tabItem {
                     Image(systemName: "music.note.list")
                     Text("Playlist Queue")
                 }.tag(2)
-            InfoView()
+            SpotifySongSearchView(isHost: true, getSongsViewController: self.getSpotifySongsViewController)
                 .tabItem {
                     Image(systemName: "magnifyingglass.circle.fill")
                     Text("Add Songs")
@@ -46,8 +46,8 @@ struct HostPlaylistSongTabView: View {
 }
 
 struct HostPlaylistSongTabView_Previews: PreviewProvider {
-    @ObservedObject static var playlistSongs = SpotifySongListViewController()
+    @ObservedObject static var playlistSongs = GetSpotifySongsViewController()
     static var previews: some View {
-        HostPlaylistSongTabView(spotifySongListViewController: playlistSongs)
+        HostPlaylistSongTabView(getSpotifySongsViewController: playlistSongs)
     }
 }

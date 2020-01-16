@@ -39,6 +39,8 @@
 		A25317062391007E003A41D1 /* LaunchScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A25317052391007E003A41D1 /* LaunchScreenView.swift */; };
 		A25317092391947F003A41D1 /* HomeInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A25317082391947F003A41D1 /* HomeInfoView.swift */; };
 		A253170C23919604003A41D1 /* LogoutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A253170B23919604003A41D1 /* LogoutViewController.swift */; };
+		A25DF97A23C9565700D5EF39 /* SpotifySongSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A25DF97923C9565700D5EF39 /* SpotifySongSearchView.swift */; };
+		A25DF97C23C9621A00D5EF39 /* SpotifySongSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A25DF97B23C9621A00D5EF39 /* SpotifySongSearchViewController.swift */; };
 		A26B2A6F23C52CBF00C73D25 /* GetFriendsAndRequestsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26B2A6E23C52CBF00C73D25 /* GetFriendsAndRequestsController.swift */; };
 		A26B2A7123C52D8C00C73D25 /* UserFriendsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26B2A7023C52D8C00C73D25 /* UserFriendsModel.swift */; };
 		A26C17AD2346BB9E00F8396B /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26C17AC2346BB9E00F8396B /* LoginViewController.swift */; };
@@ -150,6 +152,8 @@
 		A25317052391007E003A41D1 /* LaunchScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScreenView.swift; sourceTree = "<group>"; };
 		A25317082391947F003A41D1 /* HomeInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeInfoView.swift; sourceTree = "<group>"; };
 		A253170B23919604003A41D1 /* LogoutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoutViewController.swift; sourceTree = "<group>"; };
+		A25DF97923C9565700D5EF39 /* SpotifySongSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifySongSearchView.swift; sourceTree = "<group>"; };
+		A25DF97B23C9621A00D5EF39 /* SpotifySongSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifySongSearchViewController.swift; sourceTree = "<group>"; };
 		A26B2A6E23C52CBF00C73D25 /* GetFriendsAndRequestsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetFriendsAndRequestsController.swift; sourceTree = "<group>"; };
 		A26B2A7023C52D8C00C73D25 /* UserFriendsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFriendsModel.swift; sourceTree = "<group>"; };
 		A26C17AC2346BB9E00F8396B /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -342,7 +346,7 @@
 		A21890B723417EBC008FBA2C /* View */ = {
 			isa = PBXGroup;
 			children = (
-				A286384123AC064B00666229 /* SpotifySongListViews */,
+				A286384123AC064B00666229 /* SpotifySongViews */,
 				A286382F23AB336100666229 /* TESTING_ONLY__TO_BE_DELETED */,
 				A22CE68223AAD3250004F219 /* HostPlaylistView */,
 				A2B9342E237C945A00EAF4FB /* SpotifyAuthView */,
@@ -551,17 +555,19 @@
 			isa = PBXGroup;
 			children = (
 				A286383B23ABF2D000666229 /* GetSpotifySongsViewController.swift */,
+				A25DF97B23C9621A00D5EF39 /* SpotifySongSearchViewController.swift */,
 			);
 			path = SpotifySongViewControllers;
 			sourceTree = "<group>";
 		};
-		A286384123AC064B00666229 /* SpotifySongListViews */ = {
+		A286384123AC064B00666229 /* SpotifySongViews */ = {
 			isa = PBXGroup;
 			children = (
 				A286384223AC066900666229 /* SpotifySongListView.swift */,
 				A286384723AC25C900666229 /* SpotifyHostCurrentSongView.swift */,
+				A25DF97923C9565700D5EF39 /* SpotifySongSearchView.swift */,
 			);
-			path = SpotifySongListViews;
+			path = SpotifySongViews;
 			sourceTree = "<group>";
 		};
 		A286384423AC06C100666229 /* SpotifySongListViewControllers */ = {
@@ -899,6 +905,7 @@
 				A28116F72368C41A009E3AD7 /* CreatePlaylistView.swift in Sources */,
 				A2B8FB78237A237C0053E608 /* ForgotPasswordView.swift in Sources */,
 				A20ED66623841D5E0043CC90 /* SpotifyWebAPIController.swift in Sources */,
+				A25DF97C23C9621A00D5EF39 /* SpotifySongSearchViewController.swift in Sources */,
 				A2FEDB692385131600E27B8F /* ConfirmUserImageViewController.swift in Sources */,
 				A286383A23AB4B4B00666229 /* SpotifyPlaylistModel.swift in Sources */,
 				A2907810238DDB54007DE5C2 /* KeychainModel.swift in Sources */,
@@ -929,6 +936,7 @@
 				A28B6D1B237CA7230000F010 /* SpotifyAuthHelpView.swift in Sources */,
 				A2E44EF423C1669000C7B8D6 /* SearchUserViewController.swift in Sources */,
 				A290780D238DB7B9007DE5C2 /* KeychainController.swift in Sources */,
+				A25DF97A23C9565700D5EF39 /* SpotifySongSearchView.swift in Sources */,
 				A253170C23919604003A41D1 /* LogoutViewController.swift in Sources */,
 				A2E44EFB23C2904C00C7B8D6 /* ParseUsersController.swift in Sources */,
 				A28116F123680070009E3AD7 /* RootView.swift in Sources */,

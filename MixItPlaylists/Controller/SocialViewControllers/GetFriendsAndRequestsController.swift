@@ -41,15 +41,9 @@ final class GetFriendsAndRequestsController: ObservableObject {
     private var parseUsersController = ParseUsersController()
     
     /// MARK: Functions
-    init() {
-        // on startup
-        // get friends and requests
-        self.getFriendsAndRequests()
-    }
-    
     
     // get friends and requests
-    func getFriendsAndRequests() {
+    func getFriendsAndRequests() {        
         // set the request
         let req = APIRequest(requestType: .GET, name: .getfriends, params: [:], withToken: true)
         

@@ -177,6 +177,9 @@ struct FriendsRootView: View {
                 Spacer()
             }
             }
+            .onAppear() {
+                self.getFriendsViewController.getFriendsAndRequests()
+            }
             
             if self.showActivityIndicator {
                 ActivityIndicator()

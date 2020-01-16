@@ -41,8 +41,10 @@ class SpotifyWebAPIController {
                 //create the url object
                 var urlComps = URLComponents(string: uStr)!
                 
+                let stringParams = params as! [String: String]
+                
                 // set query params
-                urlComps.queryItems = params.map { (key, value) in
+                urlComps.queryItems = stringParams.map { (key, value) in
                     URLQueryItem(name: key, value: value)
                 }
                 urlComps.percentEncodedQuery = urlComps.percentEncodedQuery?.replacingOccurrences(of: "+", with: "%2B")
@@ -150,7 +152,7 @@ class SpotifyWebAPIController {
                     }else{
                         // get the error message
                         guard let err = json["error"] as? [String: Any] else{
-                            print("Error: getting spotify error")
+                            print("Error: getting spotify error", json)
                             return
                         }
                         

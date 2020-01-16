@@ -21,7 +21,7 @@ struct HostPlaylistCurrentSongPlayerView: View {
             GeometryReader { g in
             VStack{
                 // song image
-                Image(uiImage: self.hostMainViewController.currentSong.album.image)
+                Image(uiImage: self.hostMainViewController.getSpotifySongsViewController.currentSong.album.image)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: g.size.width, height: g.size.width)
@@ -30,13 +30,13 @@ struct HostPlaylistCurrentSongPlayerView: View {
                 // song info
                 VStack{
                     // song title
-                    Text(self.hostMainViewController.currentSong.name)
+                    Text(self.hostMainViewController.getSpotifySongsViewController.currentSong.name)
                         .font(.custom("Helvetica-Bold", size: 25))
                         .lineLimit(2)
                         .multilineTextAlignment(.center)
                     
                     // song Artist
-                    Text(self.hostMainViewController.currentSong.artist.name)
+                    Text(self.hostMainViewController.getSpotifySongsViewController.currentSong.artist.name)
                         .font(.custom("Helvetica", size: 18))
                         .padding(.top, 10)
                 }
@@ -54,7 +54,7 @@ struct HostPlaylistCurrentSongPlayerView: View {
                     ProgressBar(progressPercent: self.hostMainViewController.songProgressPercent)
                     
                     // total song length
-                    Text(self.hostMainViewController.currentSong.stringLength)
+                    Text(self.hostMainViewController.getSpotifySongsViewController.currentSong.stringLength)
                         .font(.custom("Helvetica", size: 18))
                         .foregroundColor(.white)
                 }
@@ -106,9 +106,9 @@ struct HostPlaylistCurrentSongPlayerView_Previews: PreviewProvider {
     static var previews: some View {
         HostPlaylistCurrentSongPlayerView(hostMainViewController: host)
         .onAppear() {
-            host.currentSong.album.image = UIImage(systemName: "circle.fill")!
-            host.currentSong.name = "Test Song Name"
-            host.currentSong.artist.name = "Test Song Artist"
+            host.getSpotifySongsViewController.currentSong.album.image = UIImage(systemName: "circle.fill")!
+            host.getSpotifySongsViewController.currentSong.name = "Test Song Name"
+            host.getSpotifySongsViewController.currentSong.artist.name = "Test Song Artist"
         }
     }
 }
