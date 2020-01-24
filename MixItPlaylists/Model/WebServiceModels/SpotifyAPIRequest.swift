@@ -23,7 +23,8 @@ struct SpotifyAPIRequest {
         case
             getArtists = "me/top/artists",
             getMe = "me",
-            search = "search"
+            search = "search",
+            getMyExisting = "me/playlists"
     }
     
     // url
