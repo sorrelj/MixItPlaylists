@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		150F58E723DA62E400F3418C /* HomeMyPlaylistsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150F58E623DA62E400F3418C /* HomeMyPlaylistsView.swift */; };
+		150F58E923DA654A00F3418C /* SelectExistingPlaylistView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150F58E823DA654A00F3418C /* SelectExistingPlaylistView.swift */; };
+		150F58EB23DA686100F3418C /* SelectExistingPlaylistController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150F58EA23DA686100F3418C /* SelectExistingPlaylistController.swift */; };
 		A20ED65A237E13930043CC90 /* ConfirmCreateAccountMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20ED659237E13930043CC90 /* ConfirmCreateAccountMainView.swift */; };
 		A20ED65D2382490A0043CC90 /* ConfirmAccountVeiw.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20ED65C2382490A0043CC90 /* ConfirmAccountVeiw.swift */; };
 		A20ED65F238249670043CC90 /* SelectUserImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20ED65E238249670043CC90 /* SelectUserImageView.swift */; };
@@ -114,6 +117,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		150F58E623DA62E400F3418C /* HomeMyPlaylistsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeMyPlaylistsView.swift; sourceTree = "<group>"; };
+		150F58E823DA654A00F3418C /* SelectExistingPlaylistView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectExistingPlaylistView.swift; sourceTree = "<group>"; };
+		150F58EA23DA686100F3418C /* SelectExistingPlaylistController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectExistingPlaylistController.swift; sourceTree = "<group>"; };
 		A20ED659237E13930043CC90 /* ConfirmCreateAccountMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmCreateAccountMainView.swift; sourceTree = "<group>"; };
 		A20ED65C2382490A0043CC90 /* ConfirmAccountVeiw.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmAccountVeiw.swift; sourceTree = "<group>"; };
 		A20ED65E238249670043CC90 /* SelectUserImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectUserImageView.swift; sourceTree = "<group>"; };
@@ -451,6 +457,7 @@
 			isa = PBXGroup;
 			children = (
 				A252CFCC239F2E8600BDC009 /* CreatePlaylistViewController.swift */,
+				150F58EA23DA686100F3418C /* SelectExistingPlaylistController.swift */,
 			);
 			path = CreatePlaylistViewController;
 			sourceTree = "<group>";
@@ -515,6 +522,7 @@
 			isa = PBXGroup;
 			children = (
 				A28116F62368C41A009E3AD7 /* CreatePlaylistView.swift */,
+				150F58E823DA654A00F3418C /* SelectExistingPlaylistView.swift */,
 			);
 			path = CreatePlaylistView;
 			sourceTree = "<group>";
@@ -703,6 +711,7 @@
 			children = (
 				A2E44EDD23BBCCAD00C7B8D6 /* HomePlaylistView.swift */,
 				A2E44EE723BFEFD500C7B8D6 /* ConfirmStartPlaylistView.swift */,
+				150F58E623DA62E400F3418C /* HomeMyPlaylistsView.swift */,
 			);
 			path = HomePlaylistView;
 			sourceTree = "<group>";
@@ -889,6 +898,7 @@
 				A2A19E7223A6ECF600877B9E /* SpotifyAuthController.swift in Sources */,
 				A2189086234166B5008FBA2C /* SceneDelegate.swift in Sources */,
 				A2E44EF723C1671A00C7B8D6 /* SearchedUserModel.swift in Sources */,
+				150F58EB23DA686100F3418C /* SelectExistingPlaylistController.swift in Sources */,
 				A286383E23ABF3BE00666229 /* SpotifySongModel.swift in Sources */,
 				A20ED65D2382490A0043CC90 /* ConfirmAccountVeiw.swift in Sources */,
 				A26C17B82346CCE600F8396B /* APIResponse.swift in Sources */,
@@ -909,6 +919,7 @@
 				A2FEDB692385131600E27B8F /* ConfirmUserImageViewController.swift in Sources */,
 				A286383A23AB4B4B00666229 /* SpotifyPlaylistModel.swift in Sources */,
 				A2907810238DDB54007DE5C2 /* KeychainModel.swift in Sources */,
+				150F58E923DA654A00F3418C /* SelectExistingPlaylistView.swift in Sources */,
 				A20ED6712384A4BE0043CC90 /* ConfirmUserImageView.swift in Sources */,
 				A286382E23AB304000666229 /* HostPlaylistSongTabView.swift in Sources */,
 				A21890BE23417F72008FBA2C /* LoginView.swift in Sources */,
@@ -954,6 +965,7 @@
 				A2FEDB672384B64E00E27B8F /* SelectUserImageScrollView.swift in Sources */,
 				A2D41901234FD44800764104 /* AlertObject.swift in Sources */,
 				A286383423AB38AF00666229 /* HostPlaylistViewController.swift in Sources */,
+				150F58E723DA62E400F3418C /* HomeMyPlaylistsView.swift in Sources */,
 				A26B2A6F23C52CBF00C73D25 /* GetFriendsAndRequestsController.swift in Sources */,
 				A2B93430237C949A00EAF4FB /* SpotifyAuthView.swift in Sources */,
 			);

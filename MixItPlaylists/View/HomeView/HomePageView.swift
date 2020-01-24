@@ -41,7 +41,7 @@ struct HomePageView: View {
                     VStack{
                         // top half
                         VStack{
-                            HomePlaylistView(playlistViewName: "My Playlists", rootView: self.$rootView, getPlaylists: self.myPlaylistsController, selectedPlaylist: self.$selectedPlaylist)
+                            HomeMyPlaylistsView(playlistViewName: "My Playlists", rootView: self.$rootView, getPlaylists: self.myPlaylistsController, selectedPlaylist: self.$selectedPlaylist)
                         }
                         .frame(minWidth: g.size.width, maxHeight: g.size.height/3)
                         

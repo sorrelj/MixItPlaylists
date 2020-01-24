@@ -43,10 +43,6 @@ struct CreatePlaylistView: View {
     
     /// MARK: Functions
     
-    // select existing
-    private func selectExistingButtonAction() {
-        
-    }
     
     // upload image button
     private func uploadImageButtonAction() {
@@ -101,7 +97,7 @@ struct CreatePlaylistView: View {
                             .padding(.bottom, 15)
                         
                         // select existing playlist
-                        Button(action: self.selectExistingButtonAction) {
+                        NavigationLink(destination: SelectExistingPlaylistView(playlistTitle: self.$playlistTitle, playlistDescription: self.$playlistDescription, playlistImage: self.$playlistImage)) {
                             Text("Select existing Spotify playlist")
                                 .font(.custom("Helvetica", size: 14))
                         }
