@@ -39,31 +39,39 @@ final class SelectExistingPlaylistController: ObservableObject {
             return
         }
         
-        // get first image
-        guard let firstImage = images[0] as? [String: Any] else {
-            print("ERROR: parse single playlist - first image")
-            return
-        }
-        
-        // get url
-        guard let imageURL = firstImage["url"] as? String else {
-            print("ERROR: parse single playlist - imageURL")
-            return
-        }
-        
         // get id
-         guard let id = playlistSpotifyData["id"] as? String else {
-                   print("ERROR: parse single playlist - id")
-                   return
-        }
+        guard let id = playlistSpotifyData["id"] as? String else {
+                  print("ERROR: parse single playlist - id")
+                  return
+       }
+        
+        var spotPlaylists: SpotifyPlaylistModel
+        
+        if images.count > 0 {
+            // get first image
+            guard let firstImage = images[0] as? [String: Any] else {
+                print("ERROR: parse single playlist - first image")
+                return
+            }
+            
+            // get url
+            guard let imageURL = firstImage["url"] as? String else {
+                print("ERROR: parse single playlist - imageURL")
+                return
+            }
+            
+           
 
-        // get image data
-        let imgData = NSData(contentsOf: URL(string: imageURL)!)
-        
-        // get image
-        let uiImage = UIImage(data: imgData! as Data)
-        
-        let spotPlaylists = SpotifyPlaylistModel(id: id, image: uiImage!, name: name, description: description)
+            // get image data
+            let imgData = NSData(contentsOf: URL(string: imageURL)!)
+            
+            // get image
+            let uiImage = UIImage(data: imgData! as Data)
+            
+            spotPlaylists = SpotifyPlaylistModel(id: id, image: uiImage!, name: name, description: description)
+        } else {
+            spotPlaylists = SpotifyPlaylistModel(id: id, image: UIImage(), name: name, description: description)
+        }
         // add to view
         DispatchQueue.main.async {
             self.playlists.append(spotPlaylists)
