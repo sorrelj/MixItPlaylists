@@ -9,8 +9,6 @@
 import SwiftUI
 
 struct CreatePlaylistView: View {
-    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-    
     // playlist types
     private var playlistSelections: [String] = ["Public", "Friends Only"]
     
@@ -28,6 +26,11 @@ struct CreatePlaylistView: View {
     
     // select playlist type
     @State var playlistTypeSelection: Int = 0
+    
+    // bool to check if its existing
+    @State var isExisting: Bool = false
+    //Id for if its existing playlist
+    @State var playlistID: String = ""
     
     // activity indicator
     @State private var showActivityIndicator = false
@@ -58,24 +61,41 @@ struct CreatePlaylistView: View {
             self.showCreatePlaylistAlert = true
             
         }else{
+            print(self.isExisting)
             // show activity ind
             self.showActivityIndicator = true
-            
-            self.createPlaylistController.createPlaylist(name: self.playlistTitle, description: self.playlistDescription, type: self.playlistSelections[self.playlistTypeSelection].lowercased(), image: self.playlistImage, callback: { resp in
-                
-                // remove activity indicator
-                self.showActivityIndicator = false
-                
-                // success
-                if resp.success {
-                    self.alertObj = AlertObject(title: "Alert", message: resp.message, button: "Continue")
-                    self.showCreatePlaylistAlert = true
-                // error
-                }else{
-                    self.alertObj = AlertObject(title: "Alert", message: resp.message, button: "OK")
-                    self.showCreatePlaylistAlert = true
-                }
-            })
+            //if existing only call the function that creates on our Backend
+            if(self.isExisting){
+                self.createPlaylistController.createMixItPlaylist(playlistID: self.playlistID, type: self.playlistSelections[self.playlistTypeSelection], callback: {
+                    resp in
+                    // remove activity indicator
+                    self.showActivityIndicator = false
+                    
+                    if resp {
+                        self.alertObj = AlertObject(title: "Alert", message: "Successfully created MixItPlaylist" , button: "Continue")
+                        self.showCreatePlaylistAlert = true
+                    } else {
+                        self.alertObj = AlertObject(title: "Alert", message: "Error can't make Playlist", button: "OK")
+                        self.showCreatePlaylistAlert = true
+                    }
+                })
+            } else {
+                self.createPlaylistController.createPlaylist(name: self.playlistTitle, description: self.playlistDescription, type: self.playlistSelections[self.playlistTypeSelection].lowercased(), image: self.playlistImage, callback: { resp in
+                    
+                    // remove activity indicator
+                    self.showActivityIndicator = false
+                    
+                    // success
+                    if resp.success {
+                        self.alertObj = AlertObject(title: "Alert", message: resp.message, button: "Continue")
+                        self.showCreatePlaylistAlert = true
+                    // error
+                    }else{
+                        self.alertObj = AlertObject(title: "Alert", message: resp.message, button: "OK")
+                        self.showCreatePlaylistAlert = true
+                    }
+                })
+            }
         }
     }
     
@@ -97,7 +117,7 @@ struct CreatePlaylistView: View {
                             .padding(.bottom, 15)
                         
                         // select existing playlist
-                        NavigationLink(destination: SelectExistingPlaylistView(playlistTitle: self.$playlistTitle, playlistDescription: self.$playlistDescription, playlistImage: self.$playlistImage)) {
+                        NavigationLink(destination: SelectExistingPlaylistView(playlistTitle: self.$playlistTitle, playlistDescription: self.$playlistDescription, playlistImage: self.$playlistImage, isExisting: self.$isExisting, playlistID: self.$playlistID)) {
                             Text("Select existing Spotify playlist")
                                 .font(.custom("Helvetica", size: 14))
                         }
