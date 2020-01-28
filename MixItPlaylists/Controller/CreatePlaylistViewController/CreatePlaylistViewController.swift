@@ -67,13 +67,8 @@ final class CreatePlaylistViewController: ObservableObject {
             let end = "users/"+spotifyUserId+"/playlists"
             
             
-            
-            
-            
-            
-            
             /* ---------------------------
-                   Craete Playlist
+                   Create Spotify Playlist
             */
             
             // create playlist call
@@ -158,15 +153,17 @@ final class CreatePlaylistViewController: ObservableObject {
         })
     }
     
-    private func createMixItPlaylist(playlistID: String, type: String, callback: @escaping (Bool)->() ) {
+    func createMixItPlaylist(playlistID: String, type: String, callback: @escaping (Bool)->() ) {
  
         // set the request
         let create = APIRequest(requestType: .POST, name: .createPlaylist, params: ["playlist_id": playlistID, "type": type], withToken: true)
+        print(playlistID)
+        print(type)
         
         DispatchQueue.main.async {
             // perform api network call
             APINetworkController().apiNetworkRequest(req: create, callback: { resp in
-                print(resp)
+               print(resp)
                 
                 // No errors user is authorized
                 if (resp.statusCode == 200){

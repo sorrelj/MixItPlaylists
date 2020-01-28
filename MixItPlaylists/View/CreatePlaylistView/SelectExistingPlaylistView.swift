@@ -10,6 +10,8 @@ import SwiftUI
 
 struct SelectExistingPlaylistView: View {
     
+        @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    
         // playlist title
        @Binding var playlistTitle: String
        // playlist description
@@ -17,14 +19,20 @@ struct SelectExistingPlaylistView: View {
        // playlist image
        @Binding var playlistImage: UIImage?
     
+       @Binding var isExisting: Bool
+    
+       @Binding var playlistID: String
+    
        @ObservedObject var getExisting = SelectExistingPlaylistController()
     
     
     func onPlaylistButton(playlist: SpotifyPlaylistModel) {
-        print(playlist)
         self.playlistTitle = playlist.name
         self.playlistDescription = playlist.description
         self.playlistImage = playlist.image
+        self.isExisting = true
+        self.playlistID = playlist.id
+        self.presentationMode.wrappedValue.dismiss()
     }
     
     var body: some View {
