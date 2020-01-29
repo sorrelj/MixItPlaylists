@@ -126,6 +126,7 @@ final class GetSpotifySongsViewController: ObservableObject {
         print("POSITION: ",self.position)
     }
     
+    
     // get a spotify playlist's songs
     func getSpotifyPlaylistSongs(callback: @escaping (SpotifySongsResponse)->() ){
         

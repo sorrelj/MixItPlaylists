@@ -63,12 +63,12 @@ struct HomeMyPlaylistsView: View {
         }
     }
 
-    struct HomeMyPlaylistsView_Previews: PreviewProvider {
-        static let playName: String = "test"
-        @State static var root: RootViewTypes = .HOME
-        @ObservedObject static var playlist = GetPlaylistViewController(type: .MY_PLAYLISTS)
-        @State static var play: MixItPlaylistModel = MixItPlaylistModel()
-        static var previews: some View {
-            HomeMyPlaylistsView(playlistViewName: playName, rootView: $root, getPlaylists: playlist, selectedPlaylist: $play)
-        }
+struct HomeMyPlaylistsView_Previews: PreviewProvider {
+    static let playName: String = "test"
+    @State static var root: RootViewTypes = .HOME
+    @ObservedObject static var playlist = GetPlaylistViewController(type: .MY_PLAYLISTS)
+    @State static var play: MixItPlaylistModel = MixItPlaylistModel()
+    static var previews: some View {
+        HomeMyPlaylistsView(playlistViewName: playName, rootView: $root, getPlaylists: playlist, selectedPlaylist: $play)
+    }
 }
