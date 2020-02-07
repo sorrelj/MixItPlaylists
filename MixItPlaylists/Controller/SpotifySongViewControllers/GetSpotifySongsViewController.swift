@@ -101,7 +101,7 @@ final class GetSpotifySongsViewController: ObservableObject {
             
         // else send request to host
         }else{
-            // send request to host
+            // guest sends request to host
         }
         
     }
@@ -123,7 +123,18 @@ final class GetSpotifySongsViewController: ObservableObject {
             self.position = 0
         }
         
-        print("POSITION: ",self.position)
+        // update position
+        let req = APIRequest(requestType: .POST, name: .updateSongPosition, params: ["playlist_id": self.playlistID, "position": self.position.description], withToken: true)
+        
+        // send update position request
+        APINetworkController().apiNetworkRequest(req: req, callback: { resp in
+            if resp.statusCode != 200 {
+                // handle error
+                print("--ERROR-- updating position")
+            }else{
+                print("POSITION: ",self.position)
+            }
+        })
     }
     
     

@@ -64,6 +64,7 @@ struct RootView: View {
             }
         })
     }
+
     
     mutating func setRootView(view: RootViewTypes){
         self.rootViewType = view

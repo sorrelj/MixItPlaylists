@@ -66,7 +66,7 @@ struct CreatePlaylistView: View {
             self.showActivityIndicator = true
             //if existing only call the function that creates on our Backend
             if(self.isExisting){
-                self.createPlaylistController.createMixItPlaylist(playlistID: self.playlistID, type: self.playlistSelections[self.playlistTypeSelection], callback: {
+                self.createPlaylistController.createMixItPlaylist(playlistID: self.playlistID, type: self.playlistSelections[self.playlistTypeSelection].lowercased(), callback: {
                     resp in
                     // remove activity indicator
                     self.showActivityIndicator = false

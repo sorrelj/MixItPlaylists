@@ -33,7 +33,9 @@ struct APIRequest {
             searchUsers = "searchusers",
             sendfriendrequest = "sendfriendrequest",
             getfriends = "getfriends",
-            acceptfriendrequest = "acceptfriendrequest"
+            acceptfriendrequest = "acceptfriendrequest",
+            updateSongPosition = "updateposition",
+            setPlaylistOpen = "setpartyopen"
     }
     
     // request
