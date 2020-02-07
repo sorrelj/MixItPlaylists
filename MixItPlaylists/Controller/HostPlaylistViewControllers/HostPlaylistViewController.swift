@@ -13,6 +13,20 @@ import SwiftUI
 import CryptoKit
 
 
+/*
+    To make sure a playlist is open
+
+    While a song is playing
+        app sends the current time every 30
+    
+    Backend function
+        runs every 2.5 minutes
+ 
+        loop all playlists
+            if open and time > 1 minute ago
+                set to closed
+*/
+
 
 // MARK: Host Playlist View Controller
 
@@ -72,11 +86,45 @@ final class HostPlaylistViewController: ObservableObject {
         return sessionManager.isSpotifyAppInstalled
     }
     
-    // connect app remote
-    func connectAppRemote(playlistID: String) {
+    // set playlist to open on start
+    func setPlaylistOpen(playlistID: String) {
         // set playlist id
         self.playlistID = playlistID
         
+        // set open on start (first run)
+        // set request
+        let req = APIRequest(requestType: .POST, name: .setPlaylistOpen, params: ["playlist_id": self.playlistID, "isFirst": "true"], withToken: true)
+        
+        APINetworkController().apiNetworkRequest(req: req, callback: {resp in
+            if (resp.statusCode != 200){
+                print("\n\n~ SET PLAYLIST OPEN ERROR ~\n\n")
+                print(resp)
+                print("\n\n")
+                return
+            }
+        })
+        
+        // set timer
+        var openTimer = Timer.scheduledTimer(timeInterval: 60.0, target: self, selector: #selector(self.setOpen), userInfo: nil, repeats: true)
+    }
+    
+    // send set playlist open
+    @objc private func setOpen() {
+        // set request
+        let req = APIRequest(requestType: .POST, name: .setPlaylistOpen, params: ["playlist_id": self.playlistID], withToken: true)
+        
+        APINetworkController().apiNetworkRequest(req: req, callback: {resp in
+            if (resp.statusCode != 200){
+                print("\n\n~ SET PLAYLIST OPEN ERROR ~\n\n")
+                print(resp)
+                print("\n\n")
+                return
+            }
+        })
+    }
+    
+    // connect app remote
+    func connectAppRemote() {
         // wake up spotify app
         self.appRemote.authorizeAndPlayURI(SpotifyConstants.TRACK)
         

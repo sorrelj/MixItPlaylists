@@ -74,15 +74,15 @@ final class SpotifySongSearchViewController: ObservableObject {
     
     // parse all songs
     private func parseAllItems(songs: [[String: Any]]){
-            // parse the data
-            for trackData in songs {
-                self.parseSingleItem(itemX: trackData, callback: { sSong in
-                    // add item
-                    DispatchQueue.main.async {
-                        self.searchedSongList.append(sSong)
-                    }
-                })
-            }
+        // parse the data
+        for trackData in songs {
+            self.parseSingleItem(itemX: trackData, callback: { sSong in
+                // add item
+                DispatchQueue.main.async {
+                    self.searchedSongList.append(sSong)
+                }
+            })
+        }
     }
     
     // parse a single song

@@ -59,6 +59,9 @@ struct HostPlaylistRootView: View {
             return
         }
         
+        // set party to open
+        self.hostMainViewController.setPlaylistOpen(playlistID: self.playlist.id)
+        
         // get playlist details
         if self.playlist.spotifyData.id.isEmpty {
             // get the data
@@ -92,9 +95,10 @@ struct HostPlaylistRootView: View {
                 // handle error
             }else{
                 // play song
-                self.hostMainViewController.connectAppRemote(playlistID: self.playlist.id)
+                self.hostMainViewController.connectAppRemote()
             }
         })
+        
     }
     
     /*
