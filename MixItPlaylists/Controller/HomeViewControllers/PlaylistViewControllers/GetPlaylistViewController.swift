@@ -13,8 +13,15 @@ import Foundation
 enum GetPlaylistType: String {
     case
         MY_PLAYLISTS,
-        FRIENDS_PLAYLISTS,
-        NEARBY_PLAYLISTS
+        OTHERS_PLAYLISTS
+}
+
+// type
+enum PlaylistReturnType: String {
+    case
+        MY,
+        FRIENDS,
+        PUBLIC
 }
 
 // playlists return model
@@ -31,55 +38,88 @@ struct PlaylistReturnModel {
     // status
     var status: String
     
-    init(creator: String, playlist_id: String, type: String, status: String){
+    // token
+    var token: String
+    
+    init(creator: String, playlist_id: String, type: String, status: String, token: String){
         self.creator = creator
         self.playlist_id = playlist_id
         self.type = type
         self.status = status
+        self.token = token
     }
 }
 
 final class GetPlaylistViewController: ObservableObject {
     
-    @Published var playlists: [MixItPlaylistModel] = []
+    // my playlists
+    @Published var myPlaylists: [MixItPlaylistModel] = []
     
-    // Dispatch Queue
-    //var playlist_DispatchQueue: DispatchQueue
+    // friends playlists
+    @Published var friendsPlaylists: [MixItPlaylistModel] = []
+    
+    // public playlists
+    @Published var publicPlaylists: [MixItPlaylistModel] = []
+    
+    
+    // playlist type
+    var type: GetPlaylistType
 
     
     /// MARK: init playlist types
     init(type: GetPlaylistType){
+        // set type
+        self.type = type
+        
         if type == .MY_PLAYLISTS {
             // my playlists
             self.getMyPlaylists()
-        }else if type == .FRIENDS_PLAYLISTS {
-            // friends playlists
-        }else if type == .NEARBY_PLAYLISTS {
-            // nearby playlists
+        }else if type == .OTHERS_PLAYLISTS {
+            // get other open playlits
+            self.getOpenPlaylists()
         }
     }
     
+    // get my playlists
     func getMyPlaylists() {
+        // get my playlists
         let getMyPlaylists = GetMyPlaylistsController()
         
         // get playlists
         getMyPlaylists.getPlaylists(callback: { playlistReturns in
-            if (playlistReturns.error){
+            if playlistReturns.error {
                 // handle error
                 print("ERROR - get my playlists", playlistReturns.message)
             }else{
                 // parse playlists
                 DispatchQueue.main.async {
-                    self.parsePlaylists(playlists: playlistReturns.playlists)
+                    self.parsePlaylists(playlists: playlistReturns.playlists, type: .MY)
                 }
             }
         })
     }
     
-    
+    // get open playlists
+    func getOpenPlaylists() {
+        // get open playlists
+        let getOpenPlaylists = GetOpenPlaylistsController()
+        
+        // get open playlists
+        getOpenPlaylists.getPlaylists(callback: { playlistReturns in
+            if playlistReturns.error {
+                // handle error
+                print("ERROR - get open playlists", playlistReturns.message)
+            }else{
+                // parse friends and public playlists
+                DispatchQueue.main.async {
+                    self.parsePlaylists(playlists: playlistReturns.friendsPlaylists, type: .FRIENDS)
+                }
+            }
+        })
+    }
     
     // parse playlists
-    private func parsePlaylists(playlists: [PlaylistReturnModel]) {
+    private func parsePlaylists(playlists: [PlaylistReturnModel], type: PlaylistReturnType) {
         // spotify controller
         let spotifyController = SpotifyWebAPIController()
         
@@ -93,14 +133,14 @@ final class GetPlaylistViewController: ObservableObject {
                     // handle error
                     print(resp.error, resp.errorData)
                 }else{
-                    self.parseSinglePlaylist(playlist: playlist, playlistSpotifyData: resp.dataObject)
+                    self.parseSinglePlaylist(playlist: playlist, playlistSpotifyData: resp.dataObject, type: type)
                 }
             })
         }
     }
     
     // parse single playlist
-    private func parseSinglePlaylist(playlist: PlaylistReturnModel, playlistSpotifyData: [String: Any]){
+    private func parseSinglePlaylist(playlist: PlaylistReturnModel, playlistSpotifyData: [String: Any], type: PlaylistReturnType){
         // get playlist name
         guard let name = playlistSpotifyData["name"] as? String else {
             print("ERROR: parse single playlist - name")
@@ -140,11 +180,17 @@ final class GetPlaylistViewController: ObservableObject {
         // set final data
         let spotifyData = SpotifyPlaylistModel(id: playlist.playlist_id, image: uiImage!, name: name, description: description)
         
-        let finalPlaylistData = MixItPlaylistModel(id: playlist.playlist_id, playlistCreator: playlist.creator, type: playlist.type, status: playlist.status, spotifyData: spotifyData)
+        let finalPlaylistData = MixItPlaylistModel(id: playlist.playlist_id, playlistCreator: playlist.creator, type: playlist.type, status: playlist.status, token: playlist.token, spotifyData: spotifyData)
         
         // add to view
         DispatchQueue.main.async {
-            self.playlists.append(finalPlaylistData)
+            if type == .MY {
+                self.myPlaylists.append(finalPlaylistData)
+            }else if type == .FRIENDS {
+                self.friendsPlaylists.append(finalPlaylistData)
+            }else if type == .PUBLIC {
+                self.publicPlaylists.append(finalPlaylistData)
+            }
         }
     }
 }

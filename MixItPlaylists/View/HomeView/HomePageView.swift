@@ -22,11 +22,8 @@ struct HomePageView: View {
     // my playlists controller
     @ObservedObject var myPlaylistsController = GetPlaylistViewController(type: .MY_PLAYLISTS)
     
-    // friends playlists controller
-    @ObservedObject var friendPlaylistsController = GetPlaylistViewController(type: .FRIENDS_PLAYLISTS)
-    
-    // nearby playlists controller
-    @ObservedObject var nearbyPlaylistsController = GetPlaylistViewController(type: .NEARBY_PLAYLISTS)
+    // friends and public playlists controller
+    @ObservedObject var otherPlaylistsController = GetPlaylistViewController(type: .OTHERS_PLAYLISTS)
     
     
     /// MARK: View
@@ -46,15 +43,9 @@ struct HomePageView: View {
                         .frame(minWidth: g.size.width, maxHeight: g.size.height/3)
                         
                         VStack{
-                            HomePlaylistView(playlistViewName: "My Friends' Playlists", rootView: self.$rootView, getPlaylists: self.friendPlaylistsController, selectedPlaylist: self.$selectedPlaylist)
+                            HomePlaylistView(rootView: self.$rootView, getPlaylists: self.otherPlaylistsController, selectedPlaylist: self.$selectedPlaylist)
                         }
-                        .frame(minWidth: g.size.width, maxHeight: g.size.height/3)
-                        
-                        // join and host playlist
-                        VStack {
-                            HomePlaylistView(playlistViewName: "Nearby Playlists", rootView: self.$rootView, getPlaylists: self.nearbyPlaylistsController, selectedPlaylist: self.$selectedPlaylist)
-                        }
-                        .frame(minWidth: g.size.width, maxHeight: g.size.height/3)
+                        .frame(minWidth: g.size.width, maxHeight: (2*g.size.height)/3)
                     }
                     }
                 

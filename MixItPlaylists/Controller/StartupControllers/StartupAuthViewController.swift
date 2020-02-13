@@ -29,7 +29,7 @@ final class StartupAuthViewController: ObservableObject {
             if (res.status == .SUCCESS) {
                 // set the request
                 let auth = APIRequest(requestType: .POST, name: .authUser, params: ["token": res.key])
-                
+
                 
                 // perform the api network call
                 APINetworkController().apiNetworkRequest(req: auth, callback: { resp in
@@ -52,10 +52,11 @@ final class StartupAuthViewController: ObservableObject {
                             
                             // set user data
                             sd.userData =   UserDataModel(username: userData["username"]!,imageID: userData["imageID"]!,number: userData["number"]!)
+                            
+                            // send callback
+                            return callback(true)
                         }
 
-                        // send callback
-                        return callback(true)
                     }else{
                         // send callback
                         return callback(false)
