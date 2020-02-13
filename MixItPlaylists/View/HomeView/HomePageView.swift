@@ -28,14 +28,14 @@ struct HomePageView: View {
     
     /// MARK: View
     var body: some View {
-        VStack{
-            NavigationView() {
-                ZStack{
-                    Color(UIColor(named: "background_main_dark")!)
-                        .edgesIgnoringSafeArea(.all)
-                    
-                    GeometryReader { g in
-                    VStack{
+        NavigationView() {
+            ZStack{
+                Color(UIColor(named: "background_main_dark")!)
+                    .edgesIgnoringSafeArea(.all)
+                
+                GeometryReader { g in
+                VStack{
+                    ScrollView(.vertical, showsIndicators: true){
                         // top half
                         VStack{
                             HomeMyPlaylistsView(playlistViewName: "My Playlists", rootView: self.$rootView, getPlaylists: self.myPlaylistsController, selectedPlaylist: self.$selectedPlaylist)
@@ -47,39 +47,39 @@ struct HomePageView: View {
                         }
                         .frame(minWidth: g.size.width, maxHeight: (2*g.size.height)/3)
                     }
-                    }
-                
+                }
                 }
             
-                .navigationBarTitle(Text(""), displayMode: .inline)
-                    
-                    
-                // Navigation button 1
-                .navigationBarItems(leading:
-                    NavigationLink(destination: HomeInfoView(rootView: self.$rootView)){
-                        HStack{
-                           
-                            Image(systemName: "info.circle.fill")
-                                .foregroundColor(.white)
-                            
-                        }
-                    }.font(.custom("Helvetica-Bold", size: 24)),
-                                    trailing:
-                    NavigationLink(destination: FriendsRootView()){
-                        HStack{
-                            
-                            Image(systemName: "person.3.fill")
-                                .foregroundColor(.white)
-                            
-                        }
-                    }.font(.custom("Helvetica-Bold", size: 20))
-                )
-                
-                .background(NavigationConfigurator { nc in
-                    nc.navigationBar.tintColor = .white
-                })
-                
             }
+        
+            .navigationBarTitle(Text(""), displayMode: .inline)
+                
+                
+            // Navigation button 1
+            .navigationBarItems(leading:
+                NavigationLink(destination: HomeInfoView(rootView: self.$rootView)){
+                    HStack{
+                       
+                        Image(systemName: "info.circle.fill")
+                            .foregroundColor(.white)
+                        
+                    }
+                }.font(.custom("Helvetica-Bold", size: 24)),
+                                trailing:
+                NavigationLink(destination: FriendsRootView()){
+                    HStack{
+                        
+                        Image(systemName: "person.3.fill")
+                            .foregroundColor(.white)
+                        
+                    }
+                }.font(.custom("Helvetica-Bold", size: 20))
+            )
+            
+            .background(NavigationConfigurator { nc in
+                nc.navigationBar.tintColor = .white
+            })
+            
         }
         
     }

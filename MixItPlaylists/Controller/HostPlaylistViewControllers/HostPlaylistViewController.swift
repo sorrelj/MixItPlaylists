@@ -59,9 +59,12 @@ final class HostPlaylistViewController: ObservableObject {
     // playlist ID
     private var playlistID: String = ""
     
+    // prev song
+    private var prevSong: String = SpotifyConstants.TRACK
     
     // progress timer
     private var progressTimer: Timer? = nil
+    
     
     
     // session manager
@@ -137,7 +140,7 @@ final class HostPlaylistViewController: ObservableObject {
     // when the app remote is connected
     func onAppRemoteConnected(_ notification: Notification){
         // set current song
-        self.setCurrentSong()
+        //self.setCurrentSong()
         
         // set shuffle to false
         self.appRemote.playerAPI?.setShuffle(false, callback: nil)
@@ -232,9 +235,11 @@ final class HostPlaylistViewController: ObservableObject {
     
     // player state change notification
     private func onPlayerStateChange(_ notification: Notification) {
+        print("DEBUG", "- Player State Change -")
+        
         // get player state
         guard let playerState = notification.userInfo?["playerState"] as? SPTAppRemotePlayerState else {
-            print("GET PLAYER STATE ERROR")
+            //print("GET PLAYER STATE ERROR")
             return
         }
         
@@ -243,16 +248,25 @@ final class HostPlaylistViewController: ObservableObject {
             return
         }
         
-        // ignore no song change
-        guard playerState.track.uri != (SpotifyConstants.TRACK + self.getSpotifySongsViewController.currentSong.id) else {
+        // ignore no song change - compare to prev song
+        guard playerState.track.uri != self.prevSong else {
+            print("DEBUG", "    NO SONG CHANGE")
             return
         }
         
-        // store old current song
-        let tempSong = self.getSpotifySongsViewController.currentSong
+        // set prev song
+        self.prevSong = playerState.track.uri
+        
+        // check for unexpected song - should be skipped
+        guard playerState.track.uri == (SpotifyConstants.TRACK + self.getSpotifySongsViewController.getNextSong().id) else {
+            print("DEBUG", "    ~> NEXT SONG <~", playerState.track.uri, SpotifyConstants.TRACK + self.getSpotifySongsViewController.getNextSong().id)
+            self.nextSongAction()
+            return
+        }
         
         // change current song
         self.setCurrentSong()
+        print("DEBUG", "    + SET SONG NEXT +")
         
     }
     

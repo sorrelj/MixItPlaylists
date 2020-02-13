@@ -30,7 +30,7 @@ struct HostPlaylistSongTabView: View {
                     Image(systemName: self.notificationNumberIcon)
                     Text("Song Requests")
                 }.tag(1)
-            SpotifySongListView(spotifySongListViewController: self.getSpotifySongsViewController.spotifySongListViewController)
+            SpotifySongListView(spotifySongListViewController: self.getSpotifySongsViewController)
                 .tabItem {
                     Image(systemName: "music.note.list")
                     Text("Playlist Queue")
