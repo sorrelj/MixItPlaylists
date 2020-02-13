@@ -29,7 +29,7 @@ struct HomeMyPlaylistsView: View {
                 
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack {
-                    ForEach(self.getPlaylists.playlists) { playlist in
+                    ForEach(self.getPlaylists.myPlaylists) { playlist in
                         // navigation link
                         NavigationLink(destination: ConfirmStartPlaylistView(selectedPlaylist: self.$selectedPlaylist, rootView: self.$rootView, playlist: playlist)){
                             VStack {

@@ -23,6 +23,9 @@ struct MixItPlaylistModel: Identifiable {
     // status
     var status: String
     
+    // token
+    var token: String
+    
     // spotify playlist data
     var spotifyData: SpotifyPlaylistModel
     
@@ -31,14 +34,16 @@ struct MixItPlaylistModel: Identifiable {
         self.playlistCreator = ""
         self.type = ""
         self.status = ""
+        self.token = ""
         self.spotifyData = SpotifyPlaylistModel()
     }
     
-    init(id: String, playlistCreator: String, type: String, status: String, spotifyData: SpotifyPlaylistModel){
+    init(id: String, playlistCreator: String, type: String, status: String, token: String, spotifyData: SpotifyPlaylistModel){
         self.id = id
         self.playlistCreator = playlistCreator
         self.type = type
         self.status = status
+        self.token = token
         self.spotifyData = spotifyData
     }
     

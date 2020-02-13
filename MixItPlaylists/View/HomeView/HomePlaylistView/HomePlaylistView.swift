@@ -11,8 +11,6 @@ import SwiftUI
 struct HomePlaylistView: View {
     
     /// MARK: Binding vars
-    // String title of list type
-    var playlistViewName: String
     
     // root view
     @Binding var rootView: RootViewTypes
@@ -25,46 +23,79 @@ struct HomePlaylistView: View {
     
     var body: some View {
         VStack {
-            Text(self.playlistViewName)
-            
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack {
-                ForEach(self.getPlaylists.playlists) { playlist in
-                    // navigation link
-                    NavigationLink(destination: ConfirmStartPlaylistView(selectedPlaylist: self.$selectedPlaylist, rootView: self.$rootView, playlist: playlist)){
-                        VStack {
-                            Image(uiImage: playlist.spotifyData.image)
-                                .resizable()
-                                .frame(width: 150, height: 150)
-                                .aspectRatio(contentMode: .fill)
-                            
-                            Text(playlist.spotifyData.name)
-                            
-                            Text(playlist.playlistCreator)
+            VStack {
+                Text("Friends' Playlists")
+                
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack {
+                    ForEach(self.getPlaylists.friendsPlaylists) { playlist in
+                        // navigation link
+                        NavigationLink(destination: ConfirmJoinPlaylistView(selectedPlaylist: self.$selectedPlaylist, rootView: self.$rootView, playlist: playlist)){
+                            VStack {
+                                Image(uiImage: playlist.spotifyData.image)
+                                    .resizable()
+                                    .frame(width: 150, height: 150)
+                                    .aspectRatio(contentMode: .fill)
+                                
+                                Text(playlist.spotifyData.name)
+                                
+                                Text(playlist.playlistCreator)
+                            }
+                            .padding(.leading,10)
+                            .padding(.trailing,10)
                         }
-                        .padding(.leading,10)
-                        .padding(.trailing,10)
+                        .onTapGesture {
+                            self.selectedPlaylist = playlist
+                        }
+                        .buttonStyle(PlainButtonStyle())
                     }
-                    .onTapGesture {
-                        self.selectedPlaylist = playlist
                     }
-                    .buttonStyle(PlainButtonStyle())
+                    .padding(.leading,10)
+                    .padding(.trailing,10)
                 }
+            }
+            
+            VStack {
+                Text("Public Playlists")
+                
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack {
+                    ForEach(self.getPlaylists.publicPlaylists) { playlist in
+                        // navigation link
+                        NavigationLink(destination: ConfirmJoinPlaylistView(selectedPlaylist: self.$selectedPlaylist, rootView: self.$rootView, playlist: playlist)){
+                            VStack {
+                                Image(uiImage: playlist.spotifyData.image)
+                                    .resizable()
+                                    .frame(width: 150, height: 150)
+                                    .aspectRatio(contentMode: .fill)
+                                
+                                Text(playlist.spotifyData.name)
+                                
+                                Text(playlist.playlistCreator)
+                            }
+                            .padding(.leading,10)
+                            .padding(.trailing,10)
+                        }
+                        .onTapGesture {
+                            self.selectedPlaylist = playlist
+                        }
+                        .buttonStyle(PlainButtonStyle())
+                    }
+                    }
+                    .padding(.leading,10)
+                    .padding(.trailing,10)
                 }
-                .padding(.leading,10)
-                .padding(.trailing,10)
             }
         }
     }
 }
 
 struct HomePlaylistView_Previews: PreviewProvider {
-    static let playName: String = "test"
     @State static var root: RootViewTypes = .HOME
     @ObservedObject static var playlist = GetPlaylistViewController(type: .MY_PLAYLISTS)
     @State static var play: MixItPlaylistModel = MixItPlaylistModel()
     static var previews: some View {
-        HomePlaylistView(playlistViewName: playName, rootView: $root, getPlaylists: playlist, selectedPlaylist: $play)
+        HomePlaylistView(rootView: $root, getPlaylists: playlist, selectedPlaylist: $play)
     }
 }
 

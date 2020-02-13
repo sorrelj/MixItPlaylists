@@ -10,7 +10,7 @@ import SwiftUI
 
 struct SpotifySongListView: View {
     
-    @ObservedObject var spotifySongListViewController: SpotifySongListViewController
+    @ObservedObject var spotifySongListViewController: GetSpotifySongsViewController
     
     var body: some View {
         ZStack {
@@ -23,7 +23,7 @@ struct SpotifySongListView: View {
             ScrollView(.vertical, showsIndicators: true) {
             VStack {
                 
-                ForEach(self.spotifySongListViewController.songs){ song in
+                ForEach(self.spotifySongListViewController.songQueue){ song in
                     // image / title / artist
                     HStack(alignment: .center) {
                         // image
@@ -63,7 +63,7 @@ struct SpotifySongListView: View {
 }
 
 struct SpotifySongListView_Previews: PreviewProvider {
-    @ObservedObject static var getSongs = SpotifySongListViewController()
+    @ObservedObject static var getSongs = GetSpotifySongsViewController()
     static var previews: some View {
         SpotifySongListView(spotifySongListViewController: getSongs)
             .colorScheme(.dark)

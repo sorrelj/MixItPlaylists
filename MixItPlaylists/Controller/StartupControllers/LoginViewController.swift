@@ -67,6 +67,12 @@ final class LoginViewController: ObservableObject {
                     return
                 }
                 
+                // Get user's info
+                guard let userData = resp.body["user"] as? [String: String] else{
+                    print("parse user data error")
+                    return
+                }
+                
                 // Store the auth code
                 
                 // init keyhchain controller class
@@ -84,17 +90,22 @@ final class LoginViewController: ObservableObject {
                                 return
                             }
                             
+                            // set token
                             sd.mixItToken = auth
+                            
+                            // set user data
+                            sd.userData = UserDataModel(username: userData["username"]!,imageID: userData["imageID"]!,number: userData["number"]!)
+                            
+                            // set the login res
+                            let resLogin = LoginResponse(
+                                status: .AUTHED,
+                                message: ""
+                            )
+
+                            // send callback
+                            return callback(resLogin)
                         }
                         
-                        // set the login res
-                        let resLogin = LoginResponse(
-                            status: .AUTHED,
-                            message: ""
-                        )
-
-                        // send callback
-                        return callback(resLogin)
                     }else{
                         print(res.status)
                     }

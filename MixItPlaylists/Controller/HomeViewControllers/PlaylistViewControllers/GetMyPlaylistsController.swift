@@ -72,7 +72,8 @@ class GetMyPlaylistsController {
                                     creator: username,
                                     playlist_id: play["playlist_id"]!,
                                     type: play["type"]!,
-                                    status: play["status"]!
+                                    status: play["status"]!,
+                                    token: ""
                                 )
                     
                     // add playlist

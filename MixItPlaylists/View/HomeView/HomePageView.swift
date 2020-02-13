@@ -22,23 +22,20 @@ struct HomePageView: View {
     // my playlists controller
     @ObservedObject var myPlaylistsController = GetPlaylistViewController(type: .MY_PLAYLISTS)
     
-    // friends playlists controller
-    @ObservedObject var friendPlaylistsController = GetPlaylistViewController(type: .FRIENDS_PLAYLISTS)
-    
-    // nearby playlists controller
-    @ObservedObject var nearbyPlaylistsController = GetPlaylistViewController(type: .NEARBY_PLAYLISTS)
+    // friends and public playlists controller
+    @ObservedObject var otherPlaylistsController = GetPlaylistViewController(type: .OTHERS_PLAYLISTS)
     
     
     /// MARK: View
     var body: some View {
-        VStack{
-            NavigationView() {
-                ZStack{
-                    Color(UIColor(named: "background_main_dark")!)
-                        .edgesIgnoringSafeArea(.all)
-                    
-                    GeometryReader { g in
-                    VStack{
+        NavigationView() {
+            ZStack{
+                Color(UIColor(named: "background_main_dark")!)
+                    .edgesIgnoringSafeArea(.all)
+                
+                GeometryReader { g in
+                VStack{
+                    ScrollView(.vertical, showsIndicators: true){
                         // top half
                         VStack{
                             HomeMyPlaylistsView(playlistViewName: "My Playlists", rootView: self.$rootView, getPlaylists: self.myPlaylistsController, selectedPlaylist: self.$selectedPlaylist)
@@ -46,49 +43,43 @@ struct HomePageView: View {
                         .frame(minWidth: g.size.width, maxHeight: g.size.height/3)
                         
                         VStack{
-                            HomePlaylistView(playlistViewName: "My Friends' Playlists", rootView: self.$rootView, getPlaylists: self.friendPlaylistsController, selectedPlaylist: self.$selectedPlaylist)
+                            HomePlaylistView(rootView: self.$rootView, getPlaylists: self.otherPlaylistsController, selectedPlaylist: self.$selectedPlaylist)
                         }
-                        .frame(minWidth: g.size.width, maxHeight: g.size.height/3)
-                        
-                        // join and host playlist
-                        VStack {
-                            HomePlaylistView(playlistViewName: "Nearby Playlists", rootView: self.$rootView, getPlaylists: self.nearbyPlaylistsController, selectedPlaylist: self.$selectedPlaylist)
-                        }
-                        .frame(minWidth: g.size.width, maxHeight: g.size.height/3)
+                        .frame(minWidth: g.size.width, maxHeight: (2*g.size.height)/3)
                     }
-                    }
-                
+                }
                 }
             
-                .navigationBarTitle(Text(""), displayMode: .inline)
-                    
-                    
-                // Navigation button 1
-                .navigationBarItems(leading:
-                    NavigationLink(destination: HomeInfoView(rootView: self.$rootView)){
-                        HStack{
-                           
-                            Image(systemName: "info.circle.fill")
-                                .foregroundColor(.white)
-                            
-                        }
-                    }.font(.custom("Helvetica-Bold", size: 24)),
-                                    trailing:
-                    NavigationLink(destination: FriendsRootView()){
-                        HStack{
-                            
-                            Image(systemName: "person.3.fill")
-                                .foregroundColor(.white)
-                            
-                        }
-                    }.font(.custom("Helvetica-Bold", size: 20))
-                )
-                
-                .background(NavigationConfigurator { nc in
-                    nc.navigationBar.tintColor = .white
-                })
-                
             }
+        
+            .navigationBarTitle(Text(""), displayMode: .inline)
+                
+                
+            // Navigation button 1
+            .navigationBarItems(leading:
+                NavigationLink(destination: HomeInfoView(rootView: self.$rootView)){
+                    HStack{
+                       
+                        Image(systemName: "info.circle.fill")
+                            .foregroundColor(.white)
+                        
+                    }
+                }.font(.custom("Helvetica-Bold", size: 24)),
+                                trailing:
+                NavigationLink(destination: FriendsRootView()){
+                    HStack{
+                        
+                        Image(systemName: "person.3.fill")
+                            .foregroundColor(.white)
+                        
+                    }
+                }.font(.custom("Helvetica-Bold", size: 20))
+            )
+            
+            .background(NavigationConfigurator { nc in
+                nc.navigationBar.tintColor = .white
+            })
+            
         }
         
     }

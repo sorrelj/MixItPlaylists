@@ -37,8 +37,11 @@ final class GetSpotifySongsViewController: ObservableObject {
     // current song
     @Published var currentSong: SpotifySongModel = SpotifySongModel()
     
+    // song queue
+    @Published var songQueue: [SpotifySongModel] = []
+    
     // Spotify Song List View Controller
-    @ObservedObject var spotifySongListViewController = SpotifySongListViewController()
+    //@ObservedObject var spotifySongListViewController = SpotifySongListViewController()
     
     // raw song list
     var rawSongList: [SpotifySongModel] = []
@@ -52,7 +55,10 @@ final class GetSpotifySongsViewController: ObservableObject {
     // playlist id
     var playlistID: String = ""
     
-    /// MARK: Functions
+    
+    
+    
+    /// MARK: Startup Functions
     
     // on startup
     func onStartup(playlistID: String, callback: @escaping (SpotifySongsResponse)->()){
@@ -65,6 +71,84 @@ final class GetSpotifySongsViewController: ObservableObject {
         })
         
     }
+    
+    
+    
+    
+    
+    
+    /// MARK: Song queue functions
+    
+    // set current song to next in list
+    func setCurrentSongNext(){
+        // set current song as next song
+        if !self.currentSong.id.isEmpty {
+            let temp = self.currentSong
+            self.addSongToEnd(song: temp)
+        }
+        
+        // remove first set current song
+        self.currentSong = self.getAndRemoveFirst()
+        
+        // update position
+        self.position += 1
+        if self.position == self.rawSongList.count {
+            self.position = 0
+        }
+        
+        // update position
+        let req = APIRequest(requestType: .POST, name: .updateSongPosition, params: ["playlist_id": self.playlistID, "position": self.position.description], withToken: true)
+        
+        // send update position request
+        APINetworkController().apiNetworkRequest(req: req, callback: { resp in
+            if resp.statusCode != 200 {
+                // handle error
+                print("--ERROR-- updating position")
+            }else{
+                print("POSITION: ",self.position)
+            }
+        })
+    }
+    
+    // get and remove first song
+    func getAndRemoveFirst() -> SpotifySongModel {
+        return self.songQueue.remove(at: 0)
+    }
+    
+    // add song to end
+    func addSongToEnd(song: SpotifySongModel) {
+        self.songQueue.append(song)
+    }
+    
+    // get next song in the queue
+    func getNextSong() -> SpotifySongModel {
+        return self.songQueue[0]
+    }
+    
+    // set songs
+    func setSongs(songs: [SpotifySongModel], position: Int){
+        if self.songQueue.isEmpty {
+            self.songQueue = songs
+        }else{
+            var tempSongs: [SpotifySongModel] = []
+            if position != songs.count-1 {
+                for i in (position+1)...songs.count-1 {
+                    tempSongs.append(songs[i])
+                }
+            }
+            if position != 0 {
+                for i in 0...position-1 {
+                    tempSongs.append(songs[i])
+                }
+            }
+            self.songQueue = tempSongs
+        }
+    }
+    
+    
+    
+    
+    /// MARK: Requests
     
     // add or request spotify song
     func addOrRequestSong(isHost: Bool, song: SpotifySongModel, callback: @escaping (SpotifySongsResponse)->()){
@@ -106,38 +190,6 @@ final class GetSpotifySongsViewController: ObservableObject {
         
     }
     
-    // set current song to next in list
-    func setCurrentSongNext(){
-        // set current song as next song
-        if !self.currentSong.id.isEmpty {
-            let temp = self.currentSong
-            self.spotifySongListViewController.addSongToEnd(song: temp)
-        }
-        
-        // remove first set current song
-        self.currentSong = self.spotifySongListViewController.getAndRemoveFirst()
-        
-        // update position
-        self.position += 1
-        if self.position == self.rawSongList.count {
-            self.position = 0
-        }
-        
-        // update position
-        let req = APIRequest(requestType: .POST, name: .updateSongPosition, params: ["playlist_id": self.playlistID, "position": self.position.description], withToken: true)
-        
-        // send update position request
-        APINetworkController().apiNetworkRequest(req: req, callback: { resp in
-            if resp.statusCode != 200 {
-                // handle error
-                print("--ERROR-- updating position")
-            }else{
-                print("POSITION: ",self.position)
-            }
-        })
-    }
-    
-    
     // get a spotify playlist's songs
     func getSpotifyPlaylistSongs(callback: @escaping (SpotifySongsResponse)->() ){
         
@@ -178,7 +230,7 @@ final class GetSpotifySongsViewController: ObservableObject {
                             self.parseAllItems(songs: finalSongList, callback: { resp in
                                 
                                 // set songs view
-                                self.spotifySongListViewController.setSongs(songs: resp, position: self.position)
+                                self.setSongs(songs: resp, position: self.position)
                                                                 
                                 return callback(SpotifySongsResponse(error: false, errorMessage: ""))
                             })
@@ -191,7 +243,7 @@ final class GetSpotifySongsViewController: ObservableObject {
                         if (resp.count > 0){
                             
                             // set songs view
-                            self.spotifySongListViewController.setSongs(songs: resp, position: self.position)
+                            self.setSongs(songs: resp, position: self.position)
                             
                             return callback(SpotifySongsResponse(error: false, errorMessage: ""))
                         }else{
@@ -203,7 +255,6 @@ final class GetSpotifySongsViewController: ObservableObject {
             
         })
     }
-    
     
     // continue adding songs
     private func continueAddingSongs(url: String, songList: [[String: Any]], callback: @escaping ([[String: Any]])->()){
@@ -243,7 +294,6 @@ final class GetSpotifySongsViewController: ObservableObject {
         
     }
 
-    
     // parse all songs
     private func parseAllItems(songs: [[String: Any]], callback: @escaping ([SpotifySongModel])-> ()){
             // dispatch group
